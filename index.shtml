@@ -1,0 +1,630 @@
+
+
+  <title>CSC148H/A48H Assignment 4, Winter 2011</title>
+
+  </head><body>
+
+    <h2>Contents</h2>
+    
+    <table>
+	<tbody><tr>
+	  <td width="75%">
+    <ul>
+      <li>
+        <a href="#intro">Introduction</a>
+      </li>
+      <li>
+        <a href="#modules">Modules to Complete</a>
+        <ul>
+          <li>
+            <a href="#part1">Photomosaic</a>
+          </li>
+          <li>
+            <a href="#part2">Fractal Mosaic</a>
+          </li>
+          <li>
+            <a href="#part3">Enhancements</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#starting">Getting Started</a>
+	<ul>
+	  <li>
+            <a href="#starting">Starter Code</a>
+          </li>
+          <li>
+            <a href="#functions">Functions You'll Need</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#requirements">Additional Requirements</a>
+	<ul>
+	  <li>
+	    <a href="#testing">Testing Your Code</a>
+	  </li>
+	  <li>
+	    <a href="#marking">Marking</a>
+	  </li>
+	</ul>
+      </li>
+      <li>
+        <a href="#submitting">Submitting Your Assignment</a>
+      </li>
+      <li>
+        <a href="#hints">Hints and Tips</a>
+      </li>      
+    </ul>
+    <hr>
+      
+    <a name="intro"></a>
+    <h2>Introduction</h2>
+	    <p>
+	      After a couple of assignments on games, we're back to
+	      doing fun things with pictures! For this assignment, you
+	      will be writing a program that creates photomosaic
+	      images. For those who haven't heard of photomosaics
+	      before, they're a collection of small images that are
+	      assembled together in a grid to form a larger image. And
+	      example of this is shown on the right.
+	    </p>
+	    <p>
+	      Photomosaics(tm) have been around since the 1950s, but
+	      computer-generated photomosaic images are a more recent
+	      concept, having been created less than 20 years
+	      ago. This technique is used a lot in <a href="truman_show_ver1.jpg">movie
+	      posters</a>, <a href="2617.jpg">promotional
+	      material</a> and <a href="0542BG.jpg">works
+	      of art</a>. They continue to develop as well, into
+	      scatter mosaics and video mosaics, which do slightly
+	      more complex versions of the same thing.
+	    </p>
+	    <p>
+	      Making a photomosaic is pretty simple. Your program will
+	      be provided with a set of images that will be used as
+	      the smaller tiles. Then we give you a single image, and
+	      your program will create a photomosaic version of that
+	      single image.
+	    </p>
+	    <p>
+	      To make this a little more challenging, your program
+	      will implement a variation on the photomosaic called a
+	      <em>fractal mosaic</em>, where the single image is made
+	      up of tiles of different sizes to create the overall
+	      mosaic effect. Larger tiles are only used if the images
+	      in those tiles bear close resemblance to a larger region
+	      of the single image.
+	    </p>
+	    <p>
+	      How will you be able to do this, you ask? Well, read on
+	      and find out!
+	    </p>
+	  </td>
+	  <td>
+	    <img src="karan.jpg">
+	    <p></p>
+	    <img src="karan_mosaic1.jpg">
+	    <p></p>
+	    <img src="karan_mosaic2.jpg">
+	  </td>
+	</tr>
+    </tbody></table>
+
+    <hr>
+    <a name="modules"></a>
+    <h2>Modules to Complete</h2>
+
+
+    <a name="part1"></a>
+    <h3>Part 1: The Photomosaic</h3>
+
+    <p>
+      The photomosaic class is stored in <code>mosaic.py</code>, and
+      contains the definition for the <code>Mosaic</code> class. This
+      class builds the basic photomosaic, which is a single picture
+      represented as a grid of smaller component pictures. This class
+      must implement the following methods:
+    </p>
+    <table border="2" cellpadding="4">
+	<tbody><tr>
+	  <td>
+	    <code>__init__(self, path)</code>
+	  </td>
+	  <td>
+	    Initialize the contents of the <code>Mosaic</code> object,
+	    so that the <code>Mosaic</code> object stores all the
+	    images in the directory specified by the string
+	    <code>path</code>. From this point onwards in the
+	    assignment description, this set of stored images is
+	    referred to as the <strong>picture database</strong>
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <code>create_mosaic(self, filename, min_size)</code>
+	  </td>
+	  <td>
+	    <p>
+	      Create and store a photomosaic version of the single
+	      picture specified by <code>filename</code>. Creating a
+	      photomosaic involves performing the following operation:
+	    </p>
+	    <ol>
+	      <li>
+		if either the height or the width of the picture is
+		less than the <code>min_size</code> provided, then
+		replace the pixels in this given picture with the
+		"closest" entry from the picture database.
+	      </li>
+	      <li>
+		otherwise, divide the picture into four equal
+		quadrants, and repeat the algorithm on each quadrant.
+	      </li>
+	    </ol>
+	    <p>
+	      When you're replacing a region of the original picture
+	      with an image from the picture database, the "closest"
+	      image is the one where the average <code>Color</code>
+	      value for the image is the closest to the average
+	      <code>Color</code> value for the region. Also, since the
+	      dimensions of this region will be different from the
+	      images in the picture database, the image will have to
+	      be scaled to be the same size as the region, before
+	      copying the pixels over.
+	    </p>
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <code>save_as(self, filename)</code>
+	  </td>
+	  <td>
+	    Save the picture that stores the photomosaic resulting
+	    from <code>create_mosaic</code> in a file called
+	    <code>filename</code> (a JPEG image, if you're using the
+	    <code>Image</code> module). If the photomosaic hasn't been
+	    created yet, don't save anything.
+	  </td>
+	</tr>
+    </tbody></table>
+
+    <a name="part2"></a>
+    <h3>Part 2: The Fractal Mosaic</h3>
+
+    <p>
+      The file <code>fractal_mosaic.py</code> contains the definition
+      for the <code>FractalMosaic</code> class. The fractal mosaic is
+      different from the photomosaic in one small way. While the
+      algorithm is dividing the original image into smaller and
+      smaller regions, if ever a region "matches" one of the images in
+      the picture database, it replaces that region with the image
+      immediately, instead of dividing it any further. So the
+      resulting mosaic will be composed of tiles of different sizes.
+    </p>
+    <p>
+      This class will also have <code>__init__()</code> and
+      <code>save_as</code> methods, that behave in exactly the same
+      way as in the <code>Mosaic</code> class. There is a slight
+      change to the <code>create_mosaic</code> method:
+    </p>
+    <table border="2" cellpadding="4">
+	<tbody><tr>
+	  <td>
+	    <code>create_mosaic(self, filename, min_size, threshold)</code>
+	  </td>
+	  <td>
+	    <p>
+	      The steps that this method performs are similar to those
+	      from the <code>Mosaic</code> class, with one extra base
+	      case condition. This method performs the following steps:
+	    </p>
+	    <ol>
+	      <li>
+		if either the height or the width of the current
+		region of the input picture is less than the
+		<code>min_size</code> provided, then replace the
+		pixels in this region with the "closest" entry from
+		the picture database.
+	      </li>
+	      <li>
+		if the region "matches" any image in the picture
+		database, then replace this entire region with the
+		matching picture and stop dividing.
+	      </li>
+	      <li>
+		otherwise, divide the current picture into four equal
+		quadrants, and repeat the algorithm again on each
+		quadrant.
+	      </li>
+	    </ol>
+	    <p>
+	      To determine if an image from the picture database
+	      "matches" the pixels in this region, scale the image so
+	      that it has the same dimensions as the region, and
+	      compare the <code>Pixel</code> values. If the average
+	      color distance between the <code>Pixel</code>s is less
+	      than the threshold provided, then the image "matches".
+	    </p>
+	  </td>
+	</tr>
+    </tbody></table>
+
+    <a name="part3"></a>
+    <h3>Part 3: Enhancements</h3>
+
+    <p>
+      If you manage to get the fractal mosaic class working, you'll
+      notice that it can run really slowly on large images (especially
+      if you're using the <code>media</code> module instead of
+      PIL). Part of the marks for this assignment is to enhance the
+      basic algorithm with techniques that you've picked up throughout
+      this course, or techniques that you've made up on your own to
+      help improve the efficiency of this algorithm or the data
+      stuctures used.
+    </p>
+    <p>
+      You'll also notice that replacing larger tiles only works if the
+      tile matches exactly with one of the quadrants of a region. That
+      is, a tile must match the top-left, top-right, bottom-left or
+      bottom-right quadrant of a region, or it doesn't match at
+      all. This doesn't seem right, does it? For instance, it would be
+      nice to have a version of this algorithm that could match
+      regions in the center of the image, instead of just in a
+      quadrant.
+    </p>
+    <p>
+      In <code>enhanced_mosaic.py</code>, submit an
+      <code>EnhancedMosaic</code> class that has the same methods as
+      the two other mosaic classes, but enhances the algorithm, either
+      by improving the efficiency or improving the resulting
+      mosaic. In order to get full marks for your enhancements, you
+      also have to submit the file <code>enhancements.txt</code> which
+      is a plain text file in which you describe the enhancements you
+      made and how this improves the overall algorithm. Treat this
+      file like a report, and write as clear and thorough an
+      explanation as possible.
+    </p>
+    <p>
+      This is your chance to be creative, and explore the
+      possibilities of making this algorithm your own. We've armed you
+      with the tools that you'll need to understand the limitations of
+      this algorithm and the possibilities for improving it, so make
+      this the best mosaic generator you can. In short, go nuts.
+    </p>
+
+    <a name="starting"></a>
+    <h2>Getting Started</h2>
+
+    <h3>Starting Code</h3>
+
+    <p>
+      We don't provide you with any starter code for this
+      assignment. The requirements are fairly simple, and the result
+      code should be relatively short.
+    </p>
+    <p>
+      However, we do provide you with a set of images that you can use
+      when you're developing your code. They're small and interesting
+      and all the same size. We won't necessarily use them when we're
+      running our tests, but they give you consistent images to work
+      from when you're testing your code.
+    </p>
+    <p>
+      Download the zipped set of images <a href="pictures.zip">here</a>
+    </p>
+    <p>
+      There are also no testers provided for this assignment, largely
+      because the verification process will be done visually by the
+      TAs. You'll want to write small tests for your own internal
+      verification though, because some of the methods will be too
+      involved to inspect their results manually.
+    </p>
+
+    <a name="functions"></a>
+    <h3>Functions You'll Need</h3>
+
+    <p>
+      In the table below, we provide a basic list of functions that
+      you'll want to look up before you start your code. Some are
+      functions that you've seen before, some are not. You shouldn't
+      need to use anything more complicated than the functions we list
+      below in order to complete the assignment.
+    </p>
+    <p>
+      <u>Note:</u> When implementing the image functions for this
+      assignment, you should consider using <strong>PIL</strong>, the
+      Python Image Library. While the assignment can be completed
+      using the <code>media</code> library that was used in Assignment
+      1, it is faster and easier in many ways to use the functions
+      provided in PIL. This will require you to call <code>import
+      Image</code> instead of <code>import media</code> at the start
+      of your code, and to read up on the <code>Image</code>
+      specification in the <a href="http://www.pythonware.com/library/pil/handbook/image.htm">Image
+      module documentation</a>.
+    </p>
+    <table border="2" cellpadding="4">
+	<tbody><tr>
+	  <th>
+	    Module
+	  </th>
+	  <th>
+	    Function(s)
+	  </th>
+	</tr>
+	<tr>
+	  <td>
+	    <strong><code>os</code></strong>
+	  </td>
+	  <td>
+	    <p>
+	      <code>os.listdir(path)</code> -- Returns a list with all
+	      the files in the directory specified by
+	      <code>path</code>.
+	    </p>
+	    <p>
+	      <code>os.path.join(path, filename)</code> -- Returns a
+	      single full file name (as a string) that is a
+	      combination of the <code>path</code> and
+	      <code>filename</code> provided.
+	    </p>
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <strong><code>math</code></strong>
+	  </td>
+	  <td>
+	    <p>
+	      <code>math.sqrt(val)</code> -- Returns the square root
+	      of the value provided.
+	    </p>
+	    <p>
+	      <code>pow(val, exp)</code> -- Returns the exponential
+	      evaluation of <code>val</code> to the power of
+	      <code>exp&gt;.
+	    </code></p>
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <strong><code>media</code></strong>
+	  </td>
+	  <td>
+	    <p>
+	      <code>Picture.get_pixel(x, y)</code> -- return the
+	      <code>Pixel</code> object at position <code>(x,
+	      y)</code>
+	    </p>
+	    <p>
+	      <code>Pixel.get_red(), Pixel.get_green(),
+	      Pixel.get_blue()</code> -- get the red (or green, or
+	      blue) value from the current <code>Pixel</code>. This
+	      value will be between 0 and 255, inclusive.
+	    </p>
+	    <p>
+	      <code>Pixel.set_red(value), Pixel.set_green(value),
+	      Pixel.set_blue(value)</code> -- set the red (or green,
+	      or blue) value of the current <code>Pixel</code>. This
+	      value should be between 0 and 255, inclusive.
+	    </p>
+	    <p>
+	      <code>Pixel.get_color() -- get the <code>Color</code>
+	      object for this <code>Pixel</code>, which contains a
+	      combination of the red, green and blue values for this
+	      <code>Pixel</code>.
+	    </code></p>
+	    <p>
+	      <code>Color.distance() -- return the distance between
+	      two <code>Color</code> objects, as an <code>int</code>.
+	    </code></p>
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <strong><code><a href="http://www.pythonware.com/library/pil/handbook/image.htm">Image</a></code></strong>
+	  </td>
+	  <td>
+	    <p>
+	      <code>open(filename)</code> -- open the picture stored
+	      in <code>filename</code>, and return an
+	      <code>Image</code> object for that picture.
+	    </p>
+	    <p>
+	      <code>size</code> -- a 2-tuple with the width and height
+	      of the <code>Image</code>.
+	    </p>
+	    <p>
+	      <code>resize((width, height))</code> -- takes in a
+	      2-tuple, and returns a resized version of the
+	      <code>Image</code>, with the new width and height.
+	    </p>
+	    <p>
+	      <code>paste(image, (x, y))</code> -- paste another
+	      <code>Image</code> into this <code>Image</code>, at the
+	      <code>x</code> and <code>y</code> coordinates provided.
+	    </p>
+	    <p>
+	      <code>getdata()</code> -- return the contents of an
+	      image as a sequence object containing pixel values
+	    </p>
+	    <p>
+	      <code>crop((start_x, start_y, end_x, end_y))</code> --
+	      return a rectangular region from the current image,
+	      within the upper and lower <code>x</code> and
+	      <code>y</code> values provided.
+	    </p>
+	    <p>
+	      <code>histogram()</code> -- returns a list that stores a
+	      histogram for the <code>Image</code>'s colour
+	      values. The list is a 1-dimensional sequence of counts,
+	      first 256 red counts, then 256 green counts, then 256
+	      blue counts. Best way to understand this is to try it
+	      out :)
+	    </p>
+	  </td>
+	</tr>
+    </tbody></table>
+
+    <hr>
+    <a name="requirements"></a>
+    <h2>Additional Requirements</h2>
+    <ol>  
+      <li>
+        The methods we ask you to implement must have absolutely no
+        user-input.  Also, your methods must have absolutely no
+        output, or else <font color="red"><strong>you will receive
+        zero for your assignment</strong></font>.
+      </li>
+      <li>
+        You should not do any error checking for this assignment.
+        Assume that all input values to the methods you are required
+        to implement are within the bounds outlined by the assignment
+        description.
+      </li>
+    </ol>
+
+    <hr>
+    <a name="marking"></a>
+    <h2>Marking</h2>
+      
+    <p>
+      The general breakdown for each submitted section has been
+      outlined earlier, but here is how the marks will be assigned,
+      broken down by section:
+    </p>
+      
+    <ul>
+      <li>
+        <b>Photomosaic (30%):</b> Your code should produce a
+        photomosaic image according to the specifications listed
+        above. When we call <code>save_as()</code>, we expect that the
+        resulting picture file will be something that the TAs can
+        open, inspect and verify for correctness.
+      </li>
+      <li>
+        <b>Fractal Mosaic (30%):</b> Your methods should perform the fractal
+        mosaic algorithm exactly as specified in the specification
+        above. Again, once the mosaic has been created, we expect that
+        the picture resulting from <code>save_as</code>
+        can be inspected to verify that the algorithm was performed
+        properly.
+      </li>
+      <li>
+        <b>Enhancements (10%):</b> Your code should feature enhancements to
+        the algorithm's peformance or the final mosaic image, but the
+        method signatures should be the same otherwise. Your
+        enhancements should also be <em>clearly</em> described in
+        <code>enhancements.txt</code>. If this file is missing, we'll
+        assume that you aren't submitting any enhancements.
+      </li>
+      <li>
+        <b>Programming style (30%):</b> 
+        <ul>
+          <li>
+	    Make sure you follow Python coding style guidelines:
+            <ul>
+              <li>
+		As a sanity check, run the style-checker available
+		from the <a href="http://www.cdf.toronto.edu/%7Ecsc148h/winter/style.shtml">course
+		website</a>. Note that if your code does not pass this
+		style-checker, it will not be marked.  </li> <li>
+		Re-read <a href="http://www.python.org/dev/peps/pep-0008/">PEP
+		8</a>.
+              </li>
+              <li> Re-read <a href="http://python.net/%7Egoodger/projects/pycon/2007/idiomatic/handout.html">this document</a> on idiomatic Python.
+              </li>
+            </ul>
+          </li>
+          <li>
+	    You should follow the familiar good coding
+	    guidelines. This includes (but is not limited to) the
+	    following principles:
+	    <ol>
+	      <li>
+		your variables' names should be meaningful,
+	      </li>
+	      <li>
+		your code should be as simple and clear as possible,
+	      </li>
+	      <li>
+		wherever possible, your code should use helper
+		methods/functions rather than duplicated code,
+	      </li>
+	      <li>
+		docstrings and internal comments should explain your
+		code to an appropriate level of detail,
+	      </li>
+	      <li>
+		you should demonstrate effective use of recursion and
+		inheritance, where appropriate.
+	      </li>
+	    </ol>
+        </li></ul>
+    </li></ul>
+    <hr>
+    
+    <a name="hints"></a>
+    <h2>Hints and Tips</h2>
+    <ul>
+      <li>
+	<strong>Start working on this assignment early!</strong>
+	Because the end of the term is a hard deadline for the course
+	and UTM's term ends on the 1st, we can't give out extensions
+	to this assignment. There's a lot of thinking involved, so
+	make sure you give yourself enough time to make it through
+	everything.
+      </li>
+      <li>
+	<strong>Plan things out.</strong> You cannot just read the
+	description and start coding right away. As mentioned in the
+	previous point, this assignment will require a lot of thinking
+	and figuring out calculations ahead of time. About half of
+	your time will be spent planning out your code on paper, so
+	make sure to factor that into your development time.
+      </li>
+      <li>
+	<strong>Start small.</strong> When you're debugging your code,
+	keep the images small until you're confident that your code is
+	working. The algorithm is fairly expensive before enhancing
+	the code, so while it might be fun to consider testing it with
+	your vacation pictures, it could take hours to create a
+	fractal mosaic from that.
+      </li>
+      <li>
+	<strong>One step at a time.</strong> Make sure you get the
+	photomosaic working perfectly first before you move on to the
+	fractal mosaic. This isn't just because the latter is a
+	expansion on the former, but also because you can get marks
+	for your photomosaic code, even if your fractal mosaic isn't
+	working yet. If you have limited time, better to submit one
+	thing that works perfectly than two things that are broken.
+      </li>
+      <li>
+	<strong>Helper functions.</strong> Please use helper methods
+	and helper functions. Please, please please please please
+	PLEASE use helper methods and helper functions. There are a
+	lot of tasks that are easy to describe (i.e. copy picture,
+	resize picture, find match, etc.) that scream out to be
+	implemented in a helper function. Plan out your design in <a href="http://en.wikipedia.org/wiki/Pseudocode">pseudocode</a>
+	first, in order to figure out what helpers you'll need.
+      </li>
+      <li>
+	<strong>Watch your math!</strong> Small mistakes are the
+	easiest to make but hardest to find. Especially those nasty
+	integer division errors ;)
+      </li>
+      <li>
+	<strong>Have fun!</strong> This assignment is less specified
+	than any you've had before, and this is on purpose. Since
+	we'll be verifying your results visually, you can make things
+	work however you want. The answer to most of your questions
+	will be, "as long as it works, it's up to you". We'll still be
+	around to give you guidance, but keep in mind that there's no
+	one solution to this, so try to have fun with it :)
+      </li>
+    </ul>
+
+    <hr>
+
+  </body></html>
