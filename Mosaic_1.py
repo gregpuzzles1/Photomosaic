@@ -57,9 +57,9 @@ class photomosaic(Mosaic):
             self.start_x = qn[0]
             self.start_y = qn[1]
             xy = self.quads(self.im_width, self.im_height, self.start_x, self.start_y)
-            for ctr in range(0,4):
-                print "xy = ", xy
-                print "self.xy = ", self.xy
+            #for ctr in range(0,4):
+            #    print "xy = ", xy
+            #    print "self.xy = ", self.xy
 
             if (xy[0][2] - xy[0][0]) < self.min_size or (xy[0][3] - xy[0][1]) < self.min_size:
                  for i in range(0, 4):
@@ -85,9 +85,11 @@ class photomosaic(Mosaic):
                         
                         match = self.rmsdiff(img, dbpic)
 
-                        print "Match = ", match[0], match[1]
+                        print "Match [0] = ", match[0]
+                        print "Match [1] = ", match[1]
                      #resize_pic = os.path.join(self.path, match)
-                     self.resize_pic = Image.open('C:\\photomosaic\\dali\\', match[1])
+                     #self.resize_pic = Image.open('C:\\photomosaic\\dali\\', match[1])
+                     self.resize_pic = Image.open('C:\\photomosaic\\dali\\ + match[1]', mode='r')
 
                      print "M0 = ", match[0]
                      print "M1 = ", match[1]
@@ -99,7 +101,6 @@ class photomosaic(Mosaic):
                      self.resize_pic = t1
 
                      #print "RP = ", resize_pic
-
                      #print "RP = ", resize_pic
 
                      width_1 = resize_pic.size[0]
@@ -143,7 +144,7 @@ class photomosaic(Mosaic):
         return self.im
 
     def resize_picture(self, resize_pic, resize_pic_width, resize_pic_height):
-        """Resizes the picture database picture to the size of the
+        """Resizes the database picture to the size of the
         cropped quadrant picture, and returns as value 'out'"""
         self.resize_pic_width = resize_pic_width
         self.resize_pic_height = resize_pic_height

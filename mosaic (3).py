@@ -32,11 +32,11 @@ def compare(img, x):
 
 def compare_color(img):
     """Innactive Function"""    
-    dirname = 'C:\\Users\\GREG\\Desktop\\Sandbox\\photomosaic\\dali'
+    dirname = 'C:\\photomosaic\\dali'
     pictdb = os.listdir(dirname)
     counter = 0
     for i in pictdb:
-        x = os.path.join('C:\\Users\\GREG\\Desktop\\Sandbox\\photomosaic\\dali', i)
+        x = os.path.join('C:\\photomosaic\\dali', i)
         td = compare(img, x)
         counter += 1
         if counter == 1:
@@ -55,7 +55,7 @@ def resize_picture(resize_pic, resize_pic_width, resize_pic_height):
     return out
 
 def find_match(img, d):
-    dirname = 'C:\\Users\\GREG\\Desktop\\Sandbox\\photomosaic\\dali'
+    dirname = 'C:\\photomosaic\\dali'
     pictdb = os.listdir(dirname)
     color_value = img_getdata(img)
     closest_match = 1000000
@@ -134,7 +134,7 @@ def pictdb_getdata(pictdb, dirname):
         
 def create_mosaic(filename, min_size):
     """Creates the mosaic"""    
-    dirname = 'C:\\Users\\GREG\\Desktop\\Sandbox\\photomosaic\\dali'
+    dirname = 'C:\\photomosaic\\dali'
     pictdb = os.listdir(dirname)        
     counter = 0
     imc = Image.open(filename)
@@ -181,13 +181,13 @@ def create_mosaic(filename, min_size):
 
 def save_as(im, outdir):
     """Save the mosaic as im.jpg in the outdir directory"""    
-    im.save(outdir + 'im.jpg', quality = 100)
+    im.save(outdir + 'TESTim.jpg', quality = 100)
 
 def main():
     """Main Program"""    
     start_time = time.clock()
-    outdir = 'C:\\Users\\GREG\\Desktop\\Sandbox\\photomosaic\\'
-    filename = "C:\\Users\GREG\Desktop\Sandbox\photomosaic\karan.jpg"
+    outdir = 'C:\\photomosaic\\'
+    filename = "C:\\photomosaic\karan.jpg"
     min_size = 10
     im = create_mosaic(filename, min_size)
     save_as(im, outdir)
