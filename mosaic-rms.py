@@ -22,103 +22,14 @@ def quads(im_width, im_height, start_x, start_y):
                        start_x + im_width, start_y + im_height)
     return quad_1, quad_2, quad_3, quad_4
 
-def compare(img, x):
-    """Inactive Function"""    
-    image2 = Image.open(x)
-    h1 = img.histogram()
-    h2 = image2.histogram()
-    rms = math.sqrt(reduce(operator.add,
-                           map(lambda a,b: (a-b)**2, h1, h2))/len(h1))
-    return rms
-
-def compare_color(img):
-    """Innactive Function"""    
-    dirname = 'C:\\photomosaic\\dali'
-    pictdb = os.listdir(dirname)
-    counter = 0
-    for i in pictdb:
-        x = os.path.join('C:\\photomosaic\\dali', i)
-        td = compare(img, x)
-        counter += 1
-        if counter == 1:
-            place_holder = td
-        if td < place_holder:
-            place_holder = td
-            pdb = i
-            
-def copy_picture():
-        pass
-
 def resize_picture(resize_pic, resize_pic_width, resize_pic_height):
     """Resizes the picture database - picture to the size of the
     cropped quadrant picture, and returns as value 'out'"""    
     out = resize_pic.resize((resize_pic_width, resize_pic_height))
     return out
 
-"""
-def find_match(img, d):
-    dirname = 'C:\\photomosaic\\dali'
-    pictdb = os.listdir(dirname)
-    for item in pictdb:
-       #print "Item = ", item
-       pass
-    color_value = img_getdata(img)
-    closest_match = 1000000
-    red_match = 10000000
-    green_match = 10000000
-    blue_match = 10000000
-    for key, value in d.items():
-        ismatch_red = abs(value[0] - color_value[0])
-        if ismatch_red < red_match:
-            red_match = ismatch_red
-            match_key_red = key
-        ismatch_green = abs(value[1] - color_value[1])
-        if ismatch_green < green_match:
-            green_match = ismatch_green
-            match_key_green = key
-        ismatch_blue = abs(value[2] - color_value[2])
-        if ismatch_blue < blue_match:
-            blue_match = ismatch_blue
-            match_key_blue = key
-    if red_match <= green_match and red_match <= blue_match:
-        return pictdb[match_key_red - 1]
-    elif green_match <= red_match and green_match <= blue_match:
-        return pictdb[match_key_green - 1]
-    elif blue_match <= red_match and blue_match <= green_match:
-        return pictdb[match_key_blue - 1]
-    else:
-        print "Error Message"
-
-        """
-        
-"""
-def img_getdata(img):
-    Returns a 3-length tuple of the average Red, Green and Blue
-    color values of input image    
-    img = img.getdata()    
-    red_counter = 0
-    green_counter = 0
-    blue_counter = 0
-    for rgb in img:
-        red = rgb[0]
-        green = rgb[1]
-        blue = rgb[2]
-        red_counter += red
-        green_counter += green
-        blue_counter += blue
-    red_average = red_counter / len(img)
-    green_average = green_counter / len(img)
-    blue_average = blue_counter / len(img)
-    color_value = (red_average, green_average, blue_average)
-    return color_value
-
-    """
-
 def rmsdiff(im, dbpic):
     "Calculate the root-mean-square difference between two images"
-
-    #print "im = ", im
-    #print "dbpic = ", dbpic
 
     diff = ImageChops.difference(im, dbpic)
     h = diff.histogram()
@@ -135,10 +46,6 @@ def FindClosestMatch(im, d):
 
     placeholder = 1000
     for item, value in d.iteritems():
-        #print "d[item] = ", item
-        #print "d[value] = ", value
-        #dbpic = os.path.join(dirname, item)
-        #dbpic = Image.open(dbpic)
         x = rmsdiff(im, value)
         if x < placeholder:
             placeholder = x
@@ -146,8 +53,6 @@ def FindClosestMatch(im, d):
             xyz = item
         else: 
             continue
-    #print "value zzz = ", value
-    #print "item xyz = ", item
     return xyz
 
 def createDBdictionary():
@@ -161,34 +66,6 @@ def createDBdictionary():
         d[counter] = dbpic
         counter += 1
     return d
-
-def pictdb_getdata(pictdb, dirname):
-    """Creates a dictionary entry for each picture in the picture database.
-    The key will be the counter, the value will be the Red, Green, and Blue
-    averages as a 3-length tuple. Returns the dictionary 'd'"""    
-    d = {}
-    counter = 0
-    for i in pictdb:
-        dbpic = os.path.join(dirname, i)
-        dbpic = Image.open(dbpic)
-        dbpic = dbpic.getdata()
-        counter += 1
-        red_counter = 0
-        green_counter = 0
-        blue_counter = 0
-        for rgb in dbpic:
-            red = rgb[0]
-            green = rgb[1]
-            blue = rgb[2]
-            red_counter += red
-            green_counter += green
-            blue_counter += blue
-        red_average = red_counter / len(dbpic)
-        green_average = green_counter / len(dbpic)
-        blue_average = blue_counter / len(dbpic)
-        color_value = (red_average, green_average, blue_average)
-        d[counter] = color_value
-    return d
         
 def create_mosaic(filename, min_size):
     """Creates the mosaic"""    
@@ -200,7 +77,6 @@ def create_mosaic(filename, min_size):
     im_width, im_height = im.size
     start_x = 0
     start_y = 0
-    ###############################################
 
     QL1 = []
 
@@ -210,17 +86,6 @@ def create_mosaic(filename, min_size):
 
     hth = createDBdictionary()
 
-    #print ("DB dictionary = ", hth)
-
-    y = FindClosestMatch(im, hth)
-
-    print "Closest Match = ", y
-    #print "xyz = ", y[1]
-    #print "zzz = ", y[2]
-    #yy = Image.(y[2])
-    #print "zzz = ", y[2]
-    ###############################################
-    d = pictdb_getdata(pictdb, dirname)
     Q = []
     switch = 1
     xy = quads(im_width, im_height, start_x, start_y)

@@ -1,6 +1,5 @@
 # Python version = 2.7.6
 # Platform = win32
-# Testing "working" branch again
 
 from PIL import Image
 from PIL import ImageChops
@@ -184,7 +183,7 @@ class photomosaic(Mosaic):
             #h = ImageChops.difference(im1, dbpic).histogram()
 
         diff = ImageChops.difference(im1, dbpic)
-        h = diff.histogram()
+        h = difference.histogram(img, dbpic)
         sq = (value*(idx**2) for idx, value in enumerate(h))
         sum_of_squares = sum(sq)
         rms = math.sqrt(sum_of_squares/float(im1.size[0] * im1.size[1]))
