@@ -57,6 +57,10 @@ class photomosaic(Mosaic):
             self.start_x = qn[0]
             self.start_y = qn[1]
             xy = self.quads(self.im_width, self.im_height, self.start_x, self.start_y)
+            for ctr in range(0,4):
+                print "xy = ", xy
+                print "self.xy = ", self.xy
+
             if (xy[0][2] - xy[0][0]) < self.min_size or (xy[0][3] - xy[0][1]) < self.min_size:
                  for i in range(0, 4):
                      img = im.crop((xy[i][0], xy[i][1], xy[i][2], xy[i][3]))
