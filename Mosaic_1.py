@@ -1,5 +1,6 @@
 # Python version = 2.7.6
 # Platform = win32
+# Testing git
 
 from PIL import Image
 from PIL import ImageChops
