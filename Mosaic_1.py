@@ -68,7 +68,7 @@ class photomosaic(Mosaic):
                         #print "img = ", img
                         
                         #dbpic = os.path.join(dirname, i)
-                        dbpic = os.path.join('C:\\Users\\GREG\\Desktop\\Sandbox\\photomosaic\\dali', self.ii)
+                        dbpic = os.path.join('C:\\photomosaic\\dali', self.ii)
 
                         #print "dbpic = ", dbpic
                         dbpic = Image.open(dbpic)
@@ -82,7 +82,7 @@ class photomosaic(Mosaic):
 
                         print "Match = ", match[0], match[1]
                      #resize_pic = os.path.join(self.path, match)
-                     resize_pic = Image.open('C:\\Users\\GREG\\Desktop\\Sandbox\\photomosaic\\dali\\', match[1])
+                     self.resize_pic = Image.open('C:\\photomosaic\\dali\\', match[1])
 
                      print "M0 = ", match[0]
                      print "M1 = ", match[1]
@@ -90,8 +90,8 @@ class photomosaic(Mosaic):
                      #t1 = os.path.join('C:\\Users\\GREG\\Desktop\\Sandbox\\photomosaic\\dali\\', match[1])
                      #resize_pic = Image.open(t1)
                      #resize_pic = Image.open(resize_pic)
-                     t1 = resize_pic.load(match[1])
-                     resize_pic = t1
+                     t1 = self.resize_pic.load(match[1])
+                     self.resize_pic = t1
 
                      #print "RP = ", resize_pic
 
@@ -168,7 +168,7 @@ class photomosaic(Mosaic):
         """for i in pictdb:
             
             #dbpic = os.path.join(dirname, i)
-            dbpic = os.path.join('C:\\Users\\GREG\\Desktop\\Sandbox\\photomosaic\\dali', i)
+            dbpic = os.path.join('C:\\photomosaic\\dali', i)
             dbpic = Image.open(dbpic)
             dbpic = dbpic.getdata()
             counter += 1"""
@@ -230,12 +230,12 @@ class photomosaic(Mosaic):
         return self.large_rms, self.target_1
 
     def save_as(self):
-        self.im.save("C:\\Users\\GREG\\Desktop\\Sandbox\\photomosaic\\" + 'im.jpg', quality = 100)
+        self.im.save("C:\\photomosaic\\" + 'im.jpg', quality = 100)
     
 
 start_time = time.clock()
-p1 = photomosaic('C:\\Users\\GREG\\Desktop\\Sandbox\\photomosaic\\dali')
-p1.create_mosaic("C:\\Users\GREG\Desktop\Sandbox\photomosaic\karan.jpg", 10)
+p1 = photomosaic('C:\\photomosaic\\dali')
+p1.create_mosaic("C:\\photomosaic\karan.jpg", 10)
 p1.save_as()
 run_time = time.clock() - start_time
 print "Run time = ", run_time
