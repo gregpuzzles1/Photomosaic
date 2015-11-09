@@ -47,6 +47,7 @@ I feel legit using a Berkeley Software License. GO BEARS!
 
 """
 from PIL import Image
+from PIL import ImageChops
 #import Image
 import math
 import os

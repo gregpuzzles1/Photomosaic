@@ -41,7 +41,7 @@ def rmsdiff(im, dbpic):
 
 def FindClosestMatch(im, d):
 
-    dirname = 'C:\\photomosaic\\dali'
+    dirname = 'C:\\photomosaic\\dali&Flowers'
     pictdb = os.listdir(dirname)
 
     placeholder = 1000
@@ -56,7 +56,7 @@ def FindClosestMatch(im, d):
     return xyz
 
 def createDBdictionary():
-    dirname = 'C:\\photomosaic\\dali'
+    dirname = 'C:\\photomosaic\\dali&Flowers'
     pictdb = os.listdir(dirname)
     d = {}
     counter = 0 
@@ -69,7 +69,7 @@ def createDBdictionary():
         
 def create_mosaic(filename, min_size):
     """Creates the mosaic"""    
-    dirname = 'C:\\photomosaic\\dali'
+    dirname = 'C:\\photomosaic\\dali&Flowers'
     pictdb = os.listdir(dirname)        
     counter = 0
     imc = Image.open(filename)
@@ -131,7 +131,7 @@ def main():
 
     outdir = 'C:\\photomosaic\\'
     filename = "C:\\photomosaic\karan.jpg"
-    min_size = 10
+    min_size = 20
     im = create_mosaic(filename, min_size)
     save_as(im, outdir)
 
