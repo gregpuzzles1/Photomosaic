@@ -9,16 +9,18 @@ import time
 
 from collections import deque
 
+
 def quads(im_width, im_height, start_x, start_y):
-        quad_1 = (start_x, start_y, start_x + im_width / 2, \
-                       start_y + im_height / 2)
-        quad_2 = (start_x + im_width / 2, start_y, \
-                       start_x + im_width, start_y + im_height / 2)
-        quad_3 = (start_x, start_y + im_height / 2, \
-                       start_x + im_width / 2, start_y + im_height)
-        quad_4 = (start_x + im_width / 2, start_y + im_height / 2, \
-                       start_x + im_width, start_y + im_height)
-        return quad_1, quad_2, quad_3, quad_4
+    quad_1 = (start_x, start_y, start_x + im_width / 2, \
+                   start_y + im_height / 2)
+    quad_2 = (start_x + im_width / 2, start_y, \
+                   start_x + im_width, start_y + im_height / 2)
+    quad_3 = (start_x, start_y + im_height / 2, \
+                   start_x + im_width / 2, start_y + im_height)
+    quad_4 = (start_x + im_width / 2, start_y + im_height / 2, \
+                   start_x + im_width, start_y + im_height)
+    return quad_1, quad_2, quad_3, quad_4
+
 
 def compare(img, x):
     image2 = Image.open(x)
@@ -33,10 +35,11 @@ def compare(img, x):
     print sum(h2)
     print "\n"""
     rms = math.sqrt(reduce(operator.add,
-                           map(lambda a,b: (a-b)**2, h1, h2))/len(h1))
+                           map(lambda a, b: (a - b)**2, h1, h2)) / len(h1))
     return rms
 
-def compare_color(img, d):    
+
+def compare_color(img, d):
     dirname = 'C:\\photomosaic\\dali'
     pictdb = os.listdir(dirname)
     place_holder = 0
@@ -48,15 +51,18 @@ def compare_color(img, d):
             pict = x
             #print "pict = ", pict
     return pict
-            
+
+
 def copy_picture():
-        pass
+    pass
+
 
 def resize_picture(resize_pic, resize_pic_width, resize_pic_height):
     """Resizes the picture database picture to the size of the
-    cropped quadrant picture, and returns as value 'out'"""    
+    cropped quadrant picture, and returns as value 'out'"""
     out = resize_pic.resize((resize_pic_width, resize_pic_height))
     return out
+
 
 def find_match(img, d):
     dirname = 'C:\\photomosaic\\dali'
@@ -72,11 +78,12 @@ def find_match(img, d):
             closest_match = ismatch
             match_key = key
     return pictdb[match_key]
-        
+
+
 def img_getdata(img):
     """Returns a 3-length tuple of the average Red, Green and Blue
-    color values"""    
-    img = img.getdata()    
+    color values"""
+    img = img.getdata()
     red_counter = 0
     green_counter = 0
     blue_counter = 0
@@ -93,10 +100,11 @@ def img_getdata(img):
     color_value = (red_average, green_average, blue_average)
     return color_value
 
+
 def pictdb_getdata(pictdb):
     """Creates a dictionary entry for each picture in the picture database.
     The key will be the counter, the value will be the Red, Green, and Blue
-    averages as a 3-length tuple. Returns the dictionary 'd'"""    
+    averages as a 3-length tuple. Returns the dictionary 'd'"""
     d = {}
     counter = 0
     for i in pictdb:
@@ -120,12 +128,13 @@ def pictdb_getdata(pictdb):
         color_value = (red_average, green_average, blue_average)
         d[counter] = color_value
     return d
-        
+
+
 def create_mosaic(filename, min_size):
-    """Creates the mosaic"""    
+    """Creates the mosaic"""
     dirname = 'C:\\photomosaic\\dali'
-    pictdb = os.listdir(dirname)    
-    outdir = 'C:\\photomosaic\\'    
+    pictdb = os.listdir(dirname)
+    outdir = 'C:\\photomosaic\\'
     counter = 0
     imc = Image.open(filename)
     im = imc.copy()
@@ -136,7 +145,7 @@ def create_mosaic(filename, min_size):
     Q = []
     switch = 1
     xy = quads(im_width, im_height, start_x, start_y)
-    for i in range(0,4):
+    for i in range(0, 4):
         Q.append(xy[i])
     while switch == 1:
         Q = deque(Q)
@@ -149,16 +158,15 @@ def create_mosaic(filename, min_size):
         b = start_y + im_height
         xy = quads(im_width, im_height, start_x, start_y)
         if (xy[0][2] - xy[0][0]) < min_size or (xy[0][3] - xy[0][1]) < min_size:
-             for i in range(0, 4):
-                 #print xy[i]
-                 img = im.crop((xy[i][0], xy[i][1], xy[i][2], xy[i][3]))
-                 #x = compare_color(img, d)
-                 print d
-                 yy = img_getdata(img)
-                 print "yy = ", yy
-                 #print x
-                 
-                 """match = find_match(img, d)
+            for i in range(0, 4):
+                #print xy[i]
+                img = im.crop((xy[i][0], xy[i][1], xy[i][2], xy[i][3]))
+                #x = compare_color(img, d)
+                print d
+                yy = img_getdata(img)
+                print "yy = ", yy
+                #print x
+                """match = find_match(img, d)
                  resize_pic = os.path.join('C:\\photomosaic\\dali', match)
                  resize_pic = Image.open(resize_pic)
                  resize_pic_width = xy[i][2] - xy[i][0]
@@ -169,17 +177,19 @@ def create_mosaic(filename, min_size):
                  if counter == 5:
                      pass"""
         else:
-             for i in range(0, 4):
-                 Q.append(xy[i])
+            for i in range(0, 4):
+                Q.append(xy[i])
         if len(Q) == 0:
-                switch = 0
-    im.save(outdir + 'im.mosaic.3.1.jpg', quality = 100)
+            switch = 0
+    im.save(outdir + 'im.mosaic.3.1.jpg', quality=100)
 
-def save_as(self, filename): 
+
+def save_as(self, filename):
     self.filename = filename
 
+
 def main():
-    """Main Program"""    
+    """Main Program"""
     start_time = time.clock()
     dirname = "C:\\photomosaic\dali"
     pictdb = os.listdir(dirname)
@@ -189,7 +199,6 @@ def main():
     run_time = time.clock() - start_time
     print "Run time = ", run_time
 
+
 if __name__ == '__main__':
     main()
-
-    

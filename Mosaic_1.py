@@ -1,9 +1,8 @@
 # Python version = 2.7.6
 # Platform = win32s
 
-import PIL
-#from PIL import Image
-#from PIL import ImageChops
+from PIL import Image
+from PIL import ImageChops
 import math
 import operator
 import os
