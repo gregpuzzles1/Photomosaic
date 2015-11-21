@@ -1,9 +1,9 @@
 # Python version = 2.7.6
-# Platform = win32
-# Testing git
+# Platform = win32s
 
-from PIL import Image
-from PIL import ImageChops
+import PIL
+#from PIL import Image
+#from PIL import ImageChops
 import math
 import operator
 import os
