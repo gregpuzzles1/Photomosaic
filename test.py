@@ -1,2 +1,4 @@
-import platform
-print platform.platform()
+import os
+x = '.DS_Store'
+if x.startswith('.'):
+	print "Halalujah"
