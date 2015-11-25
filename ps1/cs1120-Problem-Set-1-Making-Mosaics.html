@@ -1,0 +1,1241 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>cs1120: Problem Set 1 - Making Mosaics</title>
+
+<link rel="stylesheet"
+href="http://www.cs.virginia.edu/~weimer/cs1120/style.css" type="text/css"
+media="screen" />
+
+<script type="text/javascript" src="http://www.cs.virginia.edu/~weimer/1120/scripts/shCore.js"></script>
+<script type="text/javascript" src="http://www.cs.virginia.edu/~weimer/1120/scripts/shBrushPython.js"></script>
+<link type="text/css" rel="stylesheet" href="http://www.cs.virginia.edu/~weimer/1120/styles/shCoreDefault.css"/>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+
+</head>
+
+<body>
+
+
+
+
+<div id="page">
+<div id="header">
+<h1>Problem Set 1: Making Mosaics</h1>
+</div>
+
+<div id="widecontent" class="narrowcolumn">
+
+
+<div class=turnin>
+<b>Turn-in Checklist:</b> 
+<ol>
+<li> Bring in to class a stapled turn-in containing your written and
+printed answers to Questions 1-6 
+(including the code you submitted electronically).  In addition to your
+name, please include your UVA ID (e.g., mst3k) in <b>big block
+letters</b> at the top of your turn-in.   
+<li> Use our automatic adjudication service to submit a single Python file
+(a modification of <tt>ps1.py</tt>) containing your answers to Questions 3
+- 5. You must define an author list. If you are working with a partner, you
+  must <i>each</i> separately submit a copy of your joint file. 
+  </div> 
+
+<p>
+
+<h3>
+Collaboration Policy - Read Carefully
+</h3> 
+
+For the written part of this assignment (Questions 1 and 2) you must work
+alone. For the programming part of this assignment (Questions 3 - 5) you may
+work alone or with one partner of your choice. If you work with a partner,
+you and your partner should each separately submit your programming
+results. If you and your partner are at the same computer, you can
+<a href="http://www.itc.virginia.edu/netbadge/logout.html">log out of
+Netbadge</a> and log back in as your partner to submit it the second time
+(or email your partner a copy of the file, etc.). 
+<p>
+Before you start working with your partner, you should read
+through the assignment yourself and think about the questions.
+<p>
+Remember to follow the <a
+href="http://www.cs.virginia.edu/~weimer/1120/pledge.html">pledge</a> you read
+and signed at the beginning of the semester.  For this assignment, you
+may consult any outside resources, including books, papers, web 
+sites and people, you wish <i>except</i> for materials from previous
+cs1120, cs150, and cs200 courses. You may consult an outside person
+(e.g., another friend who is a CS major but is not in this class) who is
+not a member of the course staff, but that person cannot type anything
+in for you and all work must remain your own. That is, you can ask
+general questions such as "can you explain recursion to me?" or "how do
+lists work in Python?", but outside sources should never give you
+specific answers to problem set questions.  If you use resources other
+than the class materials, lectures and course staff, explain what you
+used in your turn-in.
+<p>
+
+You are <b>strongly encouraged</b> to take advantage of the scheduled
+ help hours and office hours for this course.
+
+
+<h3>Purpose</h3>
+<ul>
+<li> Introduce <em>divide and conquer</em> problem solving.
+<li> Provide exposure to recursive definitions and functions as parameters.
+<li> Provide experience reading a Python program.
+<li> Learn to use and create functions.
+<li> Gain familiarity with the PyCharm environment and Python programming language.
+<li> Make a pretty picture.
+</ul>
+
+<p>
+
+<div class=warning>
+<b>Warning:</b> This problem set is different from typical assignments.
+It touches on lots of new concepts, but you are not expected to
+understand everything in this assignment yet.  It is recommended that
+you skim through the whole problem set before trying to answer the
+questions so you have a clear idea on what you need to do.  You should
+attempt to understand as much of the rest as possible, but don't worry
+if it doesn't all make sense yet.  We won't cover everything you need to
+understand all the provided code until the end of the course.
+</div> 
+
+<p>
+
+<h3>Background</h3>
+
+<a href="http://commons.wikimedia.org/wiki/File:Mosaico_Pez_Casa_Anfiteatro_M%C3%A9rida.jpg">
+<img align=right src="fish-mosaic.jpg" width=268 height=175>
+</a>
+
+A mosaic is a picture made up of lots of smaller pieces.  The ancient
+Babylonians constructed elaborate mosaics using colored tiles.  A
+<em>photo</em>mosaic is a mosaic, except instead of using single color
+tiles for the tiles, it uses photographs.  For some example
+photomosaics, see <a
+href="http://www.photomosaic.com/portfolio.html">
+<em>http://www.photomosaic.com/portfolio.html</em></a>. 
+
+<p>
+Making a photomosaic is a big task.  The way computer scientists (and
+most other people) solve big problems is to break them into a few
+smaller sub-problems whose solutions can be combined to solve the
+original problem. This approach is sometimes called <em>divide and
+conquer</em>.
+<p>
+Note that for a big problem like making a photomosaic, doing this once
+is probably not enough.  The sub-problems are still too big to solve
+easily.  So, we need to use divide-and-conquer again to break each
+sub-problem into several sub-sub-problems.  We do this recursively,
+until we get to sub-sub-sub-...-sub problems that are small enough that
+we can solve them easily.
+<p>
+We can describe this process with <em>pseudocode</em> (that is, not
+necessarily real Python, but made to look like it):
+<p class="breakhere"></p>
+<pre class="brush: python;">
+def solve_big_problem(problem):
+        if easy_to_solve(problem):                                      # if it's easy
+                return solve(problem)                                   #  just solve it now!
+        else:                                                           # otherwise 
+                sub_problems = divide_problem(problem)                  #  divide it into sub problems
+                sub_solutions = map solve_big_problem sub_problems      #  solve each sub problem
+                return combine_solutions(sub_solutions)                 #  and combine those partial solutions
+</pre>
+
+Here, <tt>map</tt> is a function that applies another function to every
+item in a list.  The <tt>divide_problem(problem)</tt> evaluates to a
+list of sub-problems.  The value of <tt>map solve-big-problem
+sub_problems</tt> is the result of applying
+<tt>solve-big-problem</tt> to every sub-problem in that list.
+<p>
+Implementing <tt>solve</tt>, <tt>combine_solutions</tt> and
+<tt>divide_problem</tt> for a real problem is the difficult part.  There
+is a real art to figuring out how to divide a big problem into a
+suitable set of smaller problems.  Being able to do this well is the
+main thing that separates good problem solvers from mediocre ones.
+<p>
+
+<div class=reading>
+<p>
+<b>Optional Reading:</b> Chapters 1, 2 and 3 from the <a href="http://www.computingbook.org">course book</a> (free on-line).
+<p>
+<b>Optional Reading:</b> <i>or</i> start Unit 1 of <a
+href="http://www.udacity.com/overview/Course/cs101/CourseRev/apr2012">Udacity
+Intro to Computer Science</a> (free on-line). 
+<p>
+Unless you have previous programming experience, I <i>strongly</i>
+recommend that you do at least one of the optional readings. If the
+material is difficult and you did not do any of the reading, then 
+you should go and do the reading. 
+</div> 
+<p>
+
+<h3>Python Expressions</h3>
+
+Consider the following ten program fragments: 
+
+<ol type=a>
+<li> <pre class="brush: python;">150</pre>
+<li> <pre class="brush: python;">70 + 80</pre>
+<li> <pre class="brush: python;">+</pre>
+<li> <pre class="brush: python;">100 + 100</pre>
+<li> <pre class="brush: python;">150 > 100</pre>
+<li> <pre class="brush: python;">if True:
+        "always be careful" 
+                "to avoid mistakes"</pre>
+<li> <pre class="brush: python;">(3 > 2) and (4 > 5)</pre>
+<li> <pre class="brush: python;">if (12 > 10): 
+        "good move" 
+else:
+        "try again"</pre>
+<li> <pre class="brush: python;">if (not "cookies"): 
+        "eat" 
+else:
+        "starve"</pre> 
+<li> <pre class="brush: python;">(1 + 2 + 3)</pre> 
+<li> <pre class="brush: python;">if (10 > 5): "true"</pre>
+</ol>
+
+
+<div class=q>
+<b>Question 1:</b> 
+For this question you should <b>not</b> use the Python interpreter.  For
+each of the fragments, either: 
+<ol>
+<li> Explain why the fragment is not a valid Python expression; or,
+<li> Predict what value the expression will evaluate to.
+</ol>
+Any complete answer will receive full credit -- even if your prediction is
+wrong. 
+</div> 
+
+<div class=download>
+<b>Download:</b> Read the <a href="../../guides/lab.html">Lab Guide</a>
+document and follow its instructions. Once you have some storage set up
+to hold your files, such as a USB flash drive or storage provided by UVA, 
+download <a href="ps1.zip"><em>ps1.zip</em></a>
+to your machine. Following the Lab Guide instructions, extract
+the <tt>ps1</tt> folder into your cs1120 folder
+<tt>J:\cs1120</tt> (this file may take some time to download
+because it contains many mosaic tile images, so start the download and
+continue reading while it is finishing).  
+<!--
+<p>
+It will create a <tt>ps1</tt> subdirectory containing these files:
+
+<ul>
+<li><tt>ps1.py</tt></a> - A template for your
+answers.  You should do the problem set by editing this file.
+<li><tt>mosaic.py</tt></a> - Python code for
+producing photomosaics. You do not need to edit this file.
+<li><tt>graphics.py</tt></a> - Python code for manipulating images and
+drawing on the screen. You do not need to edit or even look at this file. 
+<li><tt>rotunda.gif</tt></a> - A picture of UVA's Rotunda that we will use
+as our master image for the photomosaic. 
+<li><tt>tiles/</tt></a> - A folder containing the
+tile images you will use to make your photomosaic.
+</ul>
+<p>
+You should look at the <tt>mosaic.py</tt></a> (but
+don't worry if you don't understand much of the code in that file), but
+you will only need to change and turn in <tt>ps1.py</tt></a>. 
+--> 
+<!--
+If you double-click on <tt>ps1.py</tt>, it should open in DrScheme.  
+Click the <tt>Execute</tt> or <tt>Run</tt> button (or use <tt>ctrl+T</tt>) to
+interpret the definitions.  DrScheme will split into two windows, with
+an Interaction Window on the bottom.  If the language is set
+correctly, you should see:
+<blockquote>
+<font face="arial">
+Welcome to <u>DrScheme</u>, version 4.2.1 [3m].<br>
+<font face="arial">Language: <font color="green">Pretty Big</font>;
+memory limit: <font color="green">128 megabytes</font>.</font><br>
+&gt;</font>
+</blockquote>
+in your Interactions Window. 
+--> 
+</div> 
+
+
+<div class=q>
+<b>Question 2:</b> 
+Try evaluating all the fragments from Question 1 separately using the
+<b>Interpreter</b> in PyCharm.
+For instructions for running the Interpreter in PyCharm, see the <a
+href="../../guides/lab.html">Lab Guide</a>. Turn
+in a print out of your interactions with your explanations 
+of those you mispredicted
+either as handwritten notes or as Python comments (everything after a
+<b>#</b> character) in your printout. 
+  <ul>
+  <li> One easy way to do this is to select 
+the <b>File</b> menu in PyCharm, select <b>Print</b>, and then
+select the radio button for <b>Print File Python Console</b>.) 
+  <li> If you're in a lab with no printer access, such as Olsson 001,
+  just select the text from the Python Console, right click, choose
+  <b>Copy Selected Content</b>, and then email it to yourself (e.g., via
+  UVA Webmail). You can then print it later at your convenience. 
+  </ul> 
+<p>
+If any expression evaluates to something different from what you
+expected in Question 1, figure out why.  Don't change your answers to
+Question 1, but instead write down explanations of why you think Python
+produces the value it does instead of what you expected. (You don't lose
+any points on Question 1 or 2 if your answers are wrong, but you must fully
+attempt the questions.) You don't have to write anything down for the parts
+you predicted correctly.
+</div> 
+
+<p class="breakhere"></p>
+
+<h3>Photomosaics</h3>
+
+
+<p>
+
+A (not too brilliant) kindergartner could follow these directions to 
+make a photomosaic:
+
+<ol>
+<li>Collect pictures to use as the tiles
+<ol type=a>
+<li>Ask your parents for some old magazines and scissors.  (<em>Note: it
+is important that you let your parents know you will cut up the
+magazines!</em>)
+<li>Repeat many times until you have enough pictures:
+<ol type=i>
+<li>Pick one of the magazines.
+<li>Look through it until you find a good picture.  A good picture is
+pretty small and colorful.
+<li>Cut out the picture using the scissors.
+</ol>
+</ol>
+<li>Break for milk and cookies.
+<li>Find a really big picture you want to use as the master for the
+photomosaic.
+<li>Put a thin piece of tracing paper on top of the master picture.
+<li>Draw a grid on the tracing paper:
+<ol type=a>
+<li>Get a ruler and crayon.
+<li>Repeat until the whole paper is covered with lines, starting at the
+left edge:
+<ol type=i>
+<li>Line up the ruler parallel (<em>Note: you might have to explain what
+this means to the kindergartener, but you can always give her a copy of
+<a href="http://en.wikipedia.org/wiki/Euclid%27s_Elements">Euclid's Elements</a></em>) to the long edge of the paper.
+<li>Draw a line using the ruler.
+<li>Move the ruler a little bit to the right.
+</ol>
+<li>Repeat until the whole paper is covered with lines, starting at the
+top:
+<ol type=i> 
+<li>Line up the ruler parallel to the top edge of the paper.
+<li>Draw a line using the ruler.
+<li>Move the ruler a little bit down the page.
+</ol>
+</ol>
+<li>Naptime.
+<li>Put on the tiles:
+<ol type=a>
+<li>For each rectangle on the grid that you drew on the tracing paper:
+<ol type=i>
+<li>Look through the tile pictures to find one that best matches the
+color on the master picture under that rectangle.
+<li>Glue that tile picture onto the rectangle.
+</ol>
+</ol>
+<li>Clean up the glue you spilled on the floor before adults get home.
+</ol>
+
+<p>
+We will create a photomosaic using Python in almost the same way &#151;
+except the computer is much dumber than our kindergartener, so we need
+to break the steps into even smaller problems before it can perform
+them.  (Our computer won't need to break for milk and cookies, but it will
+need to collect garbage.)
+
+<p>
+
+In step 7.a.i. the kindergartner has to look through the tile pictures
+to find one that <em>best matches the color on the master picture under
+that rectangle</em>.  Your task for this problem set will be to define a
+function that does that.
+
+<p>
+
+First, we explain how the rest of the photomosaic program works.  We
+show lots of code here, but <b>don't worry</b> if you don't understand all of
+it.  You should attempt to understand how it works, but it is not
+necessary to completely understand all the code shown here to complete
+this assignment. 
+
+<h3>Creating a Photomosaic</h3>
+<p>
+We can divide the photomosaic problem into three big steps:
+<ol>
+<li> Get images for the tiles and master.
+<li> Select the tile images that best match the colors on the master.
+<li> Display the tile images.
+</ol>
+
+First, we provide some background on images.  Then we solve step 2
+first, and then steps 1 and 3.  Often, it is easier to solve a problem
+by considering the sub-problems out of order.
+
+<br><p class="breakhere"></p>
+
+<div class=reading>
+<b>Lab:</b> These questions involve using a computer.  If you are working with a
+partner, make sure to take turns driving (who is typing on the keyboard).  
+You and your partner should switch positions every few minutes.
+Although only one partner can type at a time, both partners should be
+<em>thinking</em> all the time!  
+</div> 
+
+<p>
+<h3>Color</h3>
+<p>
+
+All colors can be created by mixing different amounts of red, green and
+blue light &#151; if you look closely at a television or computer monitor,
+you will see the whole image is made up of red, green and blue dots.  We
+can represent a color using three numbers representing how much red, green
+and blue is in the pixel.  For most computer images, there are a limited
+number of colors.  In the images we will use, there are 256 different
+intensity values for each color.  Hence, we can represent a color using
+three values between 0 and 255 to represent the amount of red, green, and
+blue in a pixel.  
+<p>
+For example, 
+<tt>[0, 0, 0]</tt> is black, <tt>[255, 255, 255]</tt> is white, <tt>[255,
+0, 0]</tt> is red, <tt>[0, 0, 255]</tt> is blue, and <tt>[255, 255, 0]</tt> is
+yellow (mixing red and green light makes yellow).
+<p>
+
+The file <tt>mosaic.py</tt></a> (included in
+the <tt>ps1.zip</tt></a> file you downloaded)
+defines some procedures for manipulating colors:
+
+<ul>
+<li><tt>make-color(<em>red</em>,<em>green</em>,<em>blue</em>)</tt> &#151;
+evaluates to a color with red, green and blue components given by the
+parameters.  The color values are between 0 and 255.  For example,
+<tt>make-color(255,0,0)</tt> is the color red. 
+
+<li><tt>get-red(<em>color</em>)</tt> &#151; evaluates to the red component
+of the color parameter.  For example, <tt>get-red(make-color(255,0,0))</tt>
+returns <tt>255</tt>. 
+
+<li><tt>get-green(<em>color</em>)</tt> &#151; evaluates to the green component
+of the color parameter. 
+
+<li><tt>get-blue(<em>color</em>)</tt> &#151; evaluates to the blue component
+of the color parameter. 
+
+<li><tt>show-color(<em>color</em>)</tt> &#151; pops up a window that
+displays a circle of the color passed as its parameter.
+</ul>
+
+The file <tt>ps1.py</tt> also defines some standard colors including:
+<pre class="brush: python;">
+# Colors are represented as lists of red, green and blue light intensities. 
+# Here are some common colors: 
+white   = make_color(255,255,255)
+black   = make_color(0,0,0)
+red     = make_color(255,0,0)
+green   = make_color(0,255,0)
+blue    = make_color(0,0,255)
+yellow  = make_color(255,255,0)
+</pre>
+
+Try evaluating <tt>show-color(yellow)</tt>. You should see a small window
+appear containing a yellow circle: 
+
+<p> 
+<center>
+<a href="pycharm-11.jpg"><img width=640 height=322 src="pycharm-11.jpg"></a> 
+</center>
+<p>
+
+If you see an error like <br> &nbsp;&nbsp;&nbsp; <font
+color="red"><tt><em>reference to undefined identifier:
+yellow</em></tt></font><br> it means you may not have loaded the correct
+file. Be sure to open <tt>ps1.ss</tt>, following the directions in 
+the Lab Guide. 
+
+<p> 
+
+
+<p class="breakhere"></p>
+<div class=q>
+<b>Question 3:</b> 
+
+Define a new color <tt>orange</tt> that looks like orange. Your answer will
+look just like the definition of <tt>yellow</tt> already in the file, but
+name <tt>orange</tt> and with different numbers. Use
+<tt>make_color</tt>. If you can't guess the right numbers to make the color
+you want, you can find a chart of the RGB (red, green and blue) values of
+some popular 
+colors <a href="color_chart.png">here</a>. Use the <tt>show_color</tt>
+procedure to check that the color you defined looks like orange.
+</div> 
+<p>
+We can say color 1 is <em>brighter</em> than color 2 if the sum of the
+red, green and blue values of color 1 is greater than the sum of the
+red, green and blue values of color 2.  This may not correspond
+exactly to our intuitive perception of colors, but it should be pretty
+close.
+<p>
+<div class=q>
+<b>Question 4:</b> 
+
+Define a procedure <tt>brighter?</tt> that takes two colors as
+parameters and evaluates to true (<tt>#t</tt>) if the first color is
+brighter than the second color; otherwise, it evaluates to false.
+Your procedure might start out similar to this:
+<pre class="brush: python;">
+def brighter(color1, color2): 
+        # Fill in code here that determines if color1 is brighter than
+        # color2. A good definition will need only a few lines of code.
+        # Your procedure should always return either True or False.
+</pre>
+Hint: you may want to use functions such as <tt>get_red</tt>. 
+<p>
+Hint: don't forget to <tt>return</tT> the answer! 
+</div> 
+<p>
+Test your procedure by evaluating it with several different
+parameters.  For example, you should get these results:
+<pre class="brush: python;">
+>>> brighter(white, red)
+True
+>>> brighter(red, white)
+False
+>>> brighter(red, red) 
+False   # red is as bright as red, but NOT brighter
+>>> brighter(red, blue) 
+False
+>>> brighter(yellow, red) 
+True 
+</pre>
+
+<p>
+<h3>Images</h3>
+<p>
+
+A computer represents an image by a <em>bitmap</em>.  A bitmap is a
+two-dimensional array of picture elements (<em>pixels</em>).  Each pixel
+is just one dot of color.  A bitmap is actually a <em>dot</em> mosaic, where
+the tiles are individual colored dots.
+<p>
+
+Instead of storing images as bitmaps, we usually store them using a
+compressed format such as a <tt>GIF</tt> or a <tt>JPG</tt>.  Compressed
+images take up less memory on the disk or to download, but are harder to
+manipulate.  Fortunately, we provide functions for converting them to
+bitmaps so you don't need to worry about it.  We can store our images in
+compressed formats and use these library functions to convert them into
+bitmaps when we use them in our photomosaic program.
+
+<p>
+
+The pixels in a bitmap are numbered on a grid.  The top left corner is
+(0, 0).  If the bitmap is <em>w</em> pixels wide and <em>h</em> pixels
+high, the bottom right corner is (<em>w</em> - 1, <em>h</em> - 1).
+
+<h3>Selecting Tiles</h3>
+<p>
+
+To select tile images for our photomosaic we follow steps 5 through 7
+from the kindergartener description.  We don't need to worry about
+programming step 6 (naptime), but if you are working with a partner do
+keep remembering to switch places with your partner.
+
+<p>
+
+To find a tile image that matches a rectangle of the master image, we
+need to know the colors of both the tile images and rectangles in the
+master image.
+
+<p>
+<h3>Finding the Average Color of a Bitmap</h3>
+<p>
+
+To find a matching tile image, we need to know the "color" of each
+tile.  One way would be to calculate the average color of each pixel
+in the tile image by adding the red, green and blue values for each
+pixel and dividing by the number of points.  For example, if we wanted
+the average color of red <tt>(255 0 0)</tt> and blue <tt>(0 0
+255)</tt> would sum the colors to get <tt>(255 0 255)</tt>, and
+divide by two to get <tt>(127.5 0 127.5)</tt>.  This looks like
+purple, which is what you might expect:
+<p>
+
+<table cellpadding=10 cellspacing=10 align=center>
+<tr>
+<td bgcolor="#0000ff"><br><br></td><td></td>
+<td bgcolor="#ff0000"></td><td></td>
+<td bgcolor="#ff00ff"></td><td></td>
+<td bgcolor="#770077"></td>
+</td>
+</tr>
+<tr>
+<td>
+<tt>(255 0 0)</tt>
+</td>
+<td><b>+</b></td>
+<td>
+<tt>(0 0 255)</tt>
+</td>
+<td><b>=</b></td>
+<td>
+<tt>(255 0 255)</tt>
+</td>
+<td><b>/ 2 =</b></td>
+<td>
+<tt>(127 0 127)</td>
+</td>
+</tr>
+
+</table>
+
+We can define a function that produces the sum of two colors by adding
+the red, green and blue components separately:
+
+<pre class="brush: python;">
+def add_color(color1, color2):
+        # Returns a new color that is equal to the sum of color1 and color2.
+        return make_color(get_red(color1) + get_red(color2),
+                get_green(color1) + get_green(color2),
+                get_blue(color1) + get_blue(color2))
+</pre>
+
+To average many colors, we need to add all the colors together and
+then divide by the number of colors.  One way to add a list of values
+together is to divide it into two simpler problems: add the first
+value to the sum of all the other values.   That is,
+<pre>
+SUM(a, b, c, d, e) = a + SUM(b, c, d, e) 
+</pre>
+
+We can do the same thing for the remaining values:
+<pre>
+SUM(b, c, d, e) = b + SUM(c, d, e) 
+   SUM(c, d, e) =     c + SUM(d, e)
+      SUM(d, e) =         d + SUM(e)
+         SUM(e) =             e + SUM()
+          SUM() =                 0
+</pre>
+
+The only tricky part is knowing what to do at the end when there are no
+colors left.  We define the <tt>SUM</tt> of no values to be <tt>0</tt>.
+Similarly, when there are no more colors left, we evaluate to the
+<tt>0</tt>-color (black).
+
+<p>
+This is how we define <tt>sum-colors</tt>:
+
+<pre class="brush: python;">
+def sum_colors(color_list): 
+        # Sums all of the colors in a list of colors. 
+        if color_list is []: 
+                # If there are no colors to sum, return black. 
+                return make_color(0,0,0)
+        else:
+                # Otherwise, add the first color in the list to the
+                # sum of the rest of the colors in the list.
+                return add_color(color_list[0], sum_colors(color_list[1:]))
+</pre>
+
+To calculate the average color of a bitmap, we just calculate the sum
+of all the colors of the pixels in the bitmap, and divide by the
+number of pixels.
+
+<p>
+<h3>Dividing the Master Image</h3>
+<p>
+
+We need to divide the master image into tile-sized regions and
+calculate the average color of each region. Our master image
+is a picture of the Rotunda. 
+</p>
+
+<center>
+<img src="rotunda.gif" width=512 height=378>
+</center> 
+
+<p>
+We need to divide it up into tiles: 
+</p> 
+
+<center>
+<img src="rotunda-divided.gif" width=512 height=378>
+</center> 
+
+<p>
+The number of tiles is going horizontally across the image is equal to the
+width of the master image divided by the width of each tile.  The width of our
+original master Rotunda image is 1024 pixels, and the width of each tile is 28
+pixels. We can just divide to get the number of tiles going horizontally: 
+</p> 
+
+<pre class="brush: python;">
+>>> ow = 1024   # width of original master Rotunda tile image
+>>> tw = 28     # width of each tile
+>>> ow/tw       # divide to get the number of horizontal tiles
+36
+</pre> 
+
+<p> 
+Python has a handy function called <tt>range</tt> that makes lists of numbers. 
+</p> 
+
+<pre class="brush: python;">
+>>> range(3) 
+[0, 1, 2]               # first 3 natural numbers
+>>> range(5) 
+[0, 1, 2, 3, 4]         # first 5 natural numbers
+</pre> 
+
+<p> 
+If we want to iterate over a list of possible horizontal tiles, we just combine 
+<tt>range</tT> with our calculation from before:
+</p> 
+
+<pre class="brush: python;">
+>>> range(ow/tw)
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35]
+</pre> 
+
+<p>
+We then do the same thing vertically (based on the height of our original
+master image and the height of each tiles). You can find the actual code for
+this in <tt>mosaic.py</tt>, but you don't need to worry about it complete the 
+assignment. If you're curious and would like to get an intuition for it, here's
+very similar similar code that makes a grid of nine tiles (like a Tic-Tac-Toe
+board): 
+</p> 
+
+<pre class="brush: python;">
+for y in range(3):              # divide it up horizontally
+        for x in range(3):      # and divide it up vertically
+                print "(" + str(x) + "," + str(y) + ")    ",
+        print ""                # start printing on the next line
+</pre> 
+<pre>
+(0,0)     (1,0)     (2,0)      
+(0,1)     (1,1)     (2,1)      
+(0,2)     (1,2)     (2,2)      
+</pre> 
+
+<p>
+The details of how <tt>for</tt> and <tt>str</tt> work are not important for
+this assignment.
+</p> 
+
+
+<p>
+<h3>Selecting the Tiles</h3>
+<p>
+
+We now know how to:
+<ol>
+<li> Load the images 
+<li> Calculate the average color of each tile image &mdash; we use <tt>add_color</tt>
+<li> Divide the master image into tile size regions 
+</ol>
+
+Suppose we know how to find the best tile for one region.  All we need
+to do make the whole photomosaic is do that for every region of the master
+image. It might look roughtly like this: 
+
+<pre class="brush: python;">
+for sample_region in regions_of_original_master_image:
+        sample_average_color = average_color_of(sample_region)
+        best_tile = find_best_match(sample_average_color, all_tiles) 
+        paste_onto_photomosaic(best_tile)
+</pre> 
+
+The real heart of the action is <tt>find_best_match</tt>, which 
+will return the tile that best matches the color of a sample region of the 
+master image. Here's how it works:
+<ol>
+        <li> If there is only one tile available, it must be the best match 
+                (it's also the only match, but it's the best match).
+        <li> If there are exactly two tiles available, we pick whichever
+                tile is a <tt>closer_color</tt> to the desired sample. 
+                We haven't written a <tt>closer_color</tt> procedure
+                yet, but we'll promise to do so later. 
+        <li> If there are three or more tiles available, we use divide and 
+                conquer. Suppose there are <i>X</i> tiles. We set
+                aside one tile so that there are <i>X-1</i> left. Then
+                we call <tt>find_best_match</tt> on those <i>X-1</i>
+                tiles. So now we have our set-aside tile and the best
+                match of the <i>X-1</i>. But that's just two tiles, so
+                we pick whichever tile is a <tt>closer_color</tt> to the 
+                desired sample.
+</ol>
+Here's a visual representation: 
+<center>
+<img src="find-best-match.png">
+</center> 
+<p>
+At the top we see our sample region (blue sky with part of a tree) and its 
+average color (light blue). We also have three tiles in this example:
+tile (a) is brown, tile (b) is dark blue, and tile (c) is green. 
+</p> 
+<ol>
+<li>
+If we are asked to find the best match between the blue sample tile
+and <i>only the green tile is available</i>, then the green tile must be our
+answer.
+<li>
+If we are asked to find the best match between the blue sample tile
+and <i>two tiles, dark blue and green, are available</i>, then we 
+figure out that dark blue is a <tt>closer_color</tt> to light blue
+than is green, so we return the dark blue tile.
+<li>
+If we are asked to find the best match between <i>all three tiles</i>,
+we first set the brown tile aside. Now we're left with just the dark
+blue and the green tiles, and we call <tt>find_best_match</tt> on them.
+But we already know what that answer is (it was in the previous paragraph):
+the best match there is the dark blue tile. So now we just have the brown tile 
+and the dark blue tile. We again use <tt>closer_color</tt> and determine
+that dark blue is closer to light blue than is brown. So we finally return the 
+dark blue tile. 
+</ol> 
+So that's how <tt>find_best_match</tt> works. Below is the Python 
+code that implements <tt>find_best_match</tt>. You should read it carefully,
+but do not worry if it doesn't make perfect sense yet.
+<p>
+<pre class="brush: python;">
+def find_best_match(sample_color, tiles, tile_colors, closer_color):
+        # Given a sample color, find the tile that is closest to 
+        # that sample color according to closer_color. 
+        if tiles is []:
+                print "Error: you must give us at least one tile!" 
+                return None
+        elif len(tiles) is 1:
+                # There is only one tile, so it must be the best match.
+                return [tiles[0], tile_colors[0]]
+        else:
+                # We'll "set aside" the first tile and call it "a". 
+                # We note that tile and its color: 
+                [a_tile, a_color] = [tiles[0], tile_colors[0]]
+                # The tiles we didn't set aside are tiles[1:]. 
+                # The tile_colors we didn't set aside are tile_colors[1:].
+
+                # Now we call find_best_match recursively on all 
+                # of the tiles we didn't set aside. (Since we set
+                # one aside, that's a smaller problem, and thus easier
+                # to solve!) 
+                [b_tile, b_color] = find_best_match(sample_color, tiles[1:], tile_colors[1:], closer_color) 
+
+                # So now we have a_tile, the tile we set aside, and
+                # b_tile, the best of all of the other tiles. We just
+                # use closer_color to pick between them! 
+                if closer_color(sample_color, a_color, b_color):
+                        return [a_tile, a_color]
+                else:
+                        return [b_tile, b_color]
+</pre> 
+<p> 
+If you look carefully, you can see that we've folded the "two tiles case"
+and the "three or more tiles case" into one giant "two or more tiles case".
+So now 
+
+<!-- page -->
+<p>
+<h3>Loading the Tiles and Master</h3>
+<p>
+
+We still need to figure out how to create the list of tiles.  Suppose
+we start with a list of filenames of images and want to turn that into
+a list of bitmaps to use as the tiles.  How can we break that into
+simpler problems?  <p>
+
+If we have a function that can load one tile image, then all we need
+to do is apply that function to every filename in the list of image
+filenames.
+<p>
+
+We can do that with <tt>map</tt> or with <i>list comprehensions</i>.  The
+function <tt>map</tt> applies a function (<tt>map</tt>'s first parameter) to
+every element in a list (<tt>map</tt>'s second parameter). A
+list comprehension is a way of defining one list in terms of the elements
+of another: for example, a list of loaded images is just like a list of
+image filenames if you load every element. 
+
+<pre class="brush: python;">
+def load_many_images(image_filenames):
+        return map(load_one_image, image_filenames) 
+</pre> 
+
+or: 
+
+<pre class="brush: python;">
+def load_many_images(image_filenames):
+        return [ load_one_image(filename) for filename in image_filenames ]
+</pre> 
+
+Both of those code samples compute the same result! 
+<p> 
+Now, all we need are ways of getting a list of image filenames and
+for loading one image.  We could just create the list of images by hand,
+but for a good photomosaic we need many images.  So, we instead put all
+the tile images in a directory and use a function that gets a list of
+all files in a directory.  Python provides <tt>glob</tt> (yes, the name is
+funny!) to do that. The actual code provided is a bit more complicated: 
+we want the name of the directory of images to be a parameter, and 
+we only want to load <tt>.GIF</tt> images (a particular image compression 
+format).
+
+<h3>Putting Everything Together</h3>
+
+We need to combine all the steps now into one procedure that produces a
+photomosaic.  Here is pseudocode that does so:
+
+<pre class="brush: python;">
+def make_photomosaic(original_filename, tile_directory, closer_color):
+
+        # Load the original master image (e.g., the Rotunda)
+        original = load_one_image(original_filename)
+
+        # Find all of the names of all of the tile files 
+        tile_filenames = glob(tile_directory, ".GIF") 
+
+        # Load all of the tile images 
+        tile_images = load_many_images(tile_filenames) 
+
+        # For each tile image, find its average color. 
+        tile_colors = map(image_average_color, tile_images) 
+
+        # Consider a grid over the original master image
+        for y in range(number_of_vertical_tiles):
+                for x in range(number_of_horizontal_tiles):
+                        # For each grid position (x,y) ...
+                        
+                        # Look at just the sample in this grid position
+                        sample_region = get_part_of_image(original, x, y)
+
+                        # Compute its average color
+                        sample_color = image_average_color(sample_region)
+
+                        # Find the best match for this grid's color
+                        # from among all the tiles we have! 
+                        best_tile = find_best_match(sample_color, tile_images, tile_colors, closer_color)
+
+                        # Paste the best tile over this grid position.  
+                        draw(best_tile, x, y) 
+</pre>
+
+That's it! You can find the real code in <tt>mosaic.py</tt> &mdash; it 
+includes extra details, such as the grid size calculation, but you've
+seen all of the key concepts. 
+
+<p>
+
+<h3>Matching Colors</h3>
+
+We're all done now, except for the procedure that determines which of
+two colors is a better match for another color.  That is left for you to
+do.
+
+<p>
+<div class=q>
+<b>Question 5:</b> 
+Write a function <tt>closer_color</tt> that can be passed in
+to <tt>make_photomosaic</tt>. Define your function in the 
+same Python file you used for Questions 3 and 4.
+</div> 
+<p>
+Your function should look like
+<pre class="brush: python;">
+def closer_color(sample, color1, color2):
+        # Fill in with code that returns True if sample is closer to color1
+        # than it is to color2. Return False otherwise. 
+</pre>
+
+In addition to the standard arithmetic operators (<tt>+</tt>, <tt>*</tt>, <tt>-</tt>, <tt>/</tt>), comparison operators (<tt>&lt;</tt>, <tt>&gt;</tt>, <tt>=</tt>), provided procedures for manipulating colors (<tt>get_red</tt>, <tt>get_green</tt> and <tt>get_blue</tt>), some other procedures you may find useful include:
+ 
+<ul>
+<li><tt>abs(<em>number</em>)</tt> &#151; evaluates to the absolute value of
+number parameter.  For example, <tt>abs(-3) == 3</tt>.
+
+<li><tt>sqrt(<em>number</em>)</tt> &#151; evaluates to an approximation of
+the square root of the number parameter.  For example, <tt>sqrt(2) ==
+1.4142135623730951</tt>.
+
+<li><tt>pow(<em>number</em>,<em>exponent</em>)</tt> &mdash; raises
+the number to the given power. For example, <tt>pow(7,2) == 49</tt>
+(i.e., 7 squared is 49). 
+
+</ul>
+
+You should test out your <tt>closer-color</tt> procedure using some simple
+colors:
+<pre class="brush: python;">
+>>> closer_color(white, white, black)
+True    # white is closer to white than to black
+>>> closer_color(white, black, white)
+False   # white not not closer to black than to white
+>>> closer_color(red, orange, blue)
+True    # red is closer to orange than to blue
+</pre>
+
+<p>
+You may find that you are implementing a mathematical formula that has
+common subexpressions. For example, to compute <tt>(x - y) * (x - y) * (x -
+y)</tt>, you might compute (and type out!) <tt>(x - y)</tt> three times.
+Here are two ways to avoid that sort of "duplicate work": 
+<pre class="brush: python;">
+def cube_it(a):
+        return (a * a * a)
+
+def first_way(x,y):
+        return cube_it(x - y) 
+</pre>
+In the first way, you use <i>procedural abstraction</i>. You just compute
+<tt>(x - y)</tt> once, and then pass it in as the parameter to a procedure 
+like <tt>cube_it</tt> that you make up. I recommend this first approach.
+Here's a second way: 
+<pre class="brush: python;">
+def second_way(x,y):
+        a = x - y               # declare temporary variable named a
+        return (a * a * a)      # use temporary variable named a 
+</pre>
+Here we are introducing a local temporary
+variable named <tt>a</tT> that holds the value <tt>(x - y)</tt>. 
+
+<p>
+Once your <tt>closer_color</tt> procedure works for the simple examples, 
+you can try to create a photomosaic by uncommenting this line at
+the bottom of the provided <tt>ps1.py</tt> file:  
+<pre class="brush: python;">
+make_photomosaic("rotunda.gif", "tiles/", closer_color) 
+</pre> 
+You can also pass in another <tt>.gif</tt> image instead of
+<tt>"rotunda.gif"</tt> if you have one. 
+<p> 
+If your <tt>closer_color</tt> procedure is good,
+you should be able to recognize the rotunda when you 
+see the photomosaic. Experiment with
+different ways of deciding which two colors are closest to improve your
+photomosaic, but try simple things first.  A good <tt>closer_color</tt>
+procedure should produce a photomosaic similar to this one: 
+<center>
+<a href="mosaic.jpg"><img width=506 height=379 src="mosaic.jpg"></a>
+</center> 
+
+
+<p>
+<div class=q>
+<b>Question 6:</b> 
+(One point.) For your printed assignment, either: 
+  <ul>
+<li> print your assignment on the computer with your all-caps UVA ID
+in at least a 24 point font
+<br>
+<i>and/or</i> 
+<br>
+<li> write your assignment with your UVA ID at least
+one inch tall in block letters. 
+</ul> 
+Only your UVA ID has to be in large print; the rest should be normal. 
+We're serious. Assume we're almost blind to UVA IDs.
+If we find anything confusing about your ID, you will not receive full
+credit for this question. Every semester many students submit assignments
+with illegible UVA IDs; that makes it difficult for them to receive proper
+credit for their work.
+<p>
+Typically it's easiest to just print out your assignment as normal and then
+add another huge UVA ID with a pen or pencil.
+<p>
+In addition, if your on-paper assignment involves multiple pages, you must
+<b>securely staple</b> them. Ad hoc taping jobs, paper clips, and loose
+pages all come apart when all of the assignments are put in a pile. You
+will lose the point for this question if your assignment is not properly
+secured. 
+</div> 
+
+<p>
+<div class=upload>
+<b>Automatic Testing:</b> 
+Submit a single Python Definition file that addresses Questions 3 - 5 to
+the Alonzo-Bot: <a
+href="https://church.cs.virginia.edu/cs1120/"><em>https://church.cs.virginia.edu/cs1120/</em></a>.
+The server will run a series of tests on your submission and report the
+result.  You may submit as many times as you want until you are
+satisfied with your test results; only the last submission counts. Your
+Python file should be a modification of the <tt>ps1.py</tt> file. If you
+are working with a partner, <b>each</b> partner must submit the same final file
+<b>separately</b>. 
+</div> 
+<P>
+
+<p>
+
+<h3>Teasers</h3>
+
+Mosaics touch on many computer science issues, some of which we will
+return to later in the course.
+
+<p>
+
+<b>Higher Order Functions.</b> We used <tt>map</tt> to apply a function
+to every element of a list.  <tt>map</tt> is an example of a <em>higher
+order function</em> &#151; that means it is a function that takes other
+functions as parameters.  Higher order functions can be very powerful.
+In Problem Set 2 (and throughout the course), we will explore higher
+order functions and recursion.
+
+<p>
+
+<b>Lists.</b> Many functions in this assignment operated on
+<em>lists</em>.  In Problem Set 2, you will understand lists and
+implement functions that operate on lists (for example, you will be able
+to implement <tt>map</tt>).
+
+<p>
+
+<b>Computational Complexity.</b> Our program might use the same tile
+image over and over again.  If there is a large section of the same
+color in our master image, the same tile image will be repeated for that
+whole section.  This looks pretty bad.  A real mosaic would never reuse
+the same tile.  Producing a non-duplicating photomosaic is an extremely
+hard problem.  In fact, it is such a hard problem that no one knows for
+sure whether or not there is a <em>fast</em> solution (we'll explain
+exactly what we mean by fast here later in the course) to finding the
+best photomosaic tiling.  Computer scientists call this an
+<em>NP-hard</em> problem.  If someone discovers a fast way to produce
+the best possible non-repeating photomosaic, then it means there are
+also fast solutions to many other seemingly unrelated and important
+problems (such as the "travelling salesperson problem" where the goal is
+to find the best route for a salesperson to visit a set of cities, and
+the "cure most deadly diseases problem" where the goal is to find a
+sequence of proteins that folds into a particular shape).  We will
+explore this about halfway through the course.
+
+<p>
+
+<b>Searching.</b> Our program takes a long time to run for even
+small photomosaics.  A really smart kindergartner wouldn't find a good
+match by looking through all the images scattered haphazardly on the
+floor; instead, she would sort the images into groups based on their
+color.  Then she could easily see all the bluish images together, and pick
+the one that best matches a particular square.  Our program has to
+consider every image for every rectangle.  A better program would be
+able to quickly find the best image without having to consider every
+image every time.  Computer scientists do a lot of work on finding
+better ways to search.  <a href="http://www.google.com">Google</a>'s
+database has 8,168,684,336 web pages (as of 21 August 2005, they don't
+publicize their database size any more).  If it searched them the same way
+we search for images and could consider 10000 pages per second, it would
+take over three days to get a response to your query.
+We will look at some better ways of searching in a few weeks.
+
+<p> 
+
+<b>Concurrency.</b> One thing to note about our problem division
+solution, is that some of the steps can be done in different orders, but
+others can only be done after an earlier step is already complete.  For
+example, we can do steps 3, 4 and 5 before step 1, but we cannot do step
+7 before step 1.  If we have a whole class of kindergartners to help
+make our photomosaic, we could give each of them a magazine and have
+them all collect tile pictures at the same time.  One way to make
+computers solve a problem quicker is to divide the problem into pieces
+that can be done at the same time, and have different computers work on
+each piece at the same time.
+
+<p>
+
+<b>Photomosaic-mosaics.</b> A photomosaic is a mosaic made with photo
+tiles.  We could also make a <em>photomosaic-mosaic</em>, a mosaic made
+with photomosaic tiles.  Of course, why stop there?  We could make a
+<em>photomosaic-mosaic-mosaic</em>, a mosaic where the tiles are
+photomosaic-mosaics.  If we have a lot of computing power, we could make
+a <em>photomosaic-movie</em>, a movie where the frames are photomosaics,
+or a <em>moviemosaic-photo</em>, a still image where the tiles are
+movies instead of still images. The
+<a href="http://www.youtube.com/watch?v=4eLCc1hxUfU">introduction to the
+1998 World Cup</a> features a 
+<em>moviemosaic-movie</em>
+(or perhaps more accurately, <em>moviemosaic-mosaic-mosaic-movie</em>)
+that has been seen by several billion people!  
+
+<p>
+
+<b>Software Patents.</b> Robert Silvers claims to have a patent (<a
+href="http://www.google.com/patents?vid=USPAT6137498">United
+States Patent 6,137,498: Digital composition of a mosaic image</a>) on
+Photomosaics.  We're not sure what the ancient Babylonians have to say
+about this, but software patents raise lots of complex legal issues.
+One would have to check with a lawyer to determine if you can
+redistribute your code from this problem set, but we encourage you to do
+so and would be happy to defend a test case against this patent.
+<p>
+<div class="credits">
+<b>Credits:</b> This problem set was originally developed for UVA
+CS200 Spring 2002 by David Evans and revised for Spring 2003 by David
+Evans, Spencer Stockdale and Katie Winstanley and revised for Spring
+2005 and Spring 2007 by David Evans and revised for Spring 2009 by Westley
+Weimer.</font><br>
+</div>
+</div>
+<div class="pdf">
+<div id="footer">
+
+<hr style="width: 100%" height="4px" color="#DADADA">
+
+<div id="name">
+<span id=leftfoot>
+<a class="plain"
+href="http://www.cs.virginia.edu/~weimer/cs1120/"><b>cs1120: Introduction
+to Computing</b></a><br>
+<a class="plain" href="http://www.cs.virginia.edu/">University of Virginia</a>
+</span>
+<span id=rightfoot>
+<a class="plain" href="mailto:weimer@cs.virginia.edu"><em>weimer@cs.virginia.edu</em></a><br>
+<a class="plain" href="http://www.cs.virginia.edu/evans/cs1120/reuse.html">Using these Materials</a>
+</span>
+</div>
+</div>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ?
+"https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost +
+"google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-3775212-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+
+
+
+
+
+
+</div>
+
+</body>
+</html>
+
+
+
+
+
+
