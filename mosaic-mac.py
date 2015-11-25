@@ -195,7 +195,7 @@ def create_mosaic(filename, min_size):
 
 def save_as(im, outdir):
     """Save the mosaic as im.jpg in the outdir directory"""
-    im.save(outdir + 'im.jpg', quality=100)
+    im.save(outdir + 'test.jpg', quality=100)
 
 
 def main():
