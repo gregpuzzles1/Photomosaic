@@ -1,5 +1,5 @@
 # Python version = 2.7.10
-# Platform = win32
+# Platform = Darwin-15.0.0-x86_64-64bit
 
 from PIL import Image
 import math
@@ -119,25 +119,26 @@ def pictdb_getdata(pictdb, dirname):
     d = {}
     counter = 0
     for i in pictdb:
-        dbpic = os.path.join(dirname, i)
-        dbpic = Image.open(dbpic)
-        dbpic = dbpic.getdata()
-        counter += 1
-        red_counter = 0
-        green_counter = 0
-        blue_counter = 0
-        for rgb in dbpic:
-            red = rgb[0]
-            green = rgb[1]
-            blue = rgb[2]
-            red_counter += red
-            green_counter += green
-            blue_counter += blue
-        red_average = red_counter / len(dbpic)
-        green_average = green_counter / len(dbpic)
-        blue_average = blue_counter / len(dbpic)
-        color_value = (red_average, green_average, blue_average)
-        d[counter] = color_value
+        if i != ".DS_Store":
+            dbpic = os.path.join(dirname, i)
+            dbpic = Image.open(dbpic)
+            dbpic = dbpic.getdata()
+            counter += 1
+            red_counter = 0
+            green_counter = 0
+            blue_counter = 0
+            for rgb in dbpic:
+                red = rgb[0]
+                green = rgb[1]
+                blue = rgb[2]
+                red_counter += red
+                green_counter += green
+                blue_counter += blue
+            red_average = red_counter / len(dbpic)
+            green_average = green_counter / len(dbpic)
+            blue_average = blue_counter / len(dbpic)
+            color_value = (red_average, green_average, blue_average)
+            d[counter] = color_value
     return d
 
 
@@ -173,13 +174,15 @@ def create_mosaic(filename, min_size):
                 img = im.crop((xy[i][0], xy[i][1], xy[i][2], xy[i][3]))
                 match = find_match(img, d)
                 resize_pic = os.path.join(dirname, match)
-                resize_pic = Image.open(resize_pic)
-                resize_pic_width = xy[i][2] - xy[i][0]
-                resize_pic_height = xy[i][3] - xy[i][1]
-                paste_pic = resize_picture(resize_pic, resize_pic_width,
-                                           resize_pic_height)
-                im.paste(paste_pic, (xy[i][0], xy[i][1]))
-                counter += 1
+                va = "dali/.DS_Store"
+                if dirname != va:
+                    resize_pic = Image.open(resize_pic)
+                    resize_pic_width = xy[i][2] - xy[i][0]
+                    resize_pic_height = xy[i][3] - xy[i][1]
+                    paste_pic = resize_picture(resize_pic, resize_pic_width,
+                                               resize_pic_height)
+                    im.paste(paste_pic, (xy[i][0], xy[i][1]))
+                    counter += 1
                 if counter == 5:
                     pass
         else:
