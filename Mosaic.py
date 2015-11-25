@@ -10,14 +10,13 @@ import time
 
 from collections import deque
 
-class Mosaic:
 
+class Mosaic:
     def __init__(self, path):
         self.path = path
 
-        
-class photomosaic(Mosaic):
 
+class photomosaic(Mosaic):
     def create_mosaic(self, filename, min_size):
         self.filename = filename
         self.min_size = min_size
@@ -36,8 +35,9 @@ class photomosaic(Mosaic):
         d = self.pictdb_getdata(self.pictdb, self.path)
         Q = []
         switch = 1
-        self.xy = self.quads(self.im_width, self.im_height, self.start_x, self.start_y)
-        for i in range(0,4):
+        self.xy = self.quads(self.im_width, self.im_height, self.start_x,
+                             self.start_y)
+        for i in range(0, 4):
             Q.append(self.xy[i])
         while switch == 1:
             Q = deque(Q)
@@ -46,25 +46,28 @@ class photomosaic(Mosaic):
             self.im_height = qn[3] - qn[1]
             self.start_x = qn[0]
             self.start_y = qn[1]
-            xy = self.quads(self.im_width, self.im_height, self.start_x, self.start_y)
-            if (xy[0][2] - xy[0][0]) < self.min_size or (xy[0][3] - xy[0][1]) < self.min_size:
-                 for i in range(0, 4):
-                     img = im.crop((xy[i][0], xy[i][1], xy[i][2], xy[i][3]))
-                     match = self.find_match(img, d)
-                     resize_pic = os.path.join(self.path, match)
-                     resize_pic = Image.open(resize_pic)
-                     resize_pic_width = xy[i][2] - xy[i][0]
-                     resize_pic_height = xy[i][3] - xy[i][1]
-                     paste_pic = self.resize_picture(resize_pic, resize_pic_width, resize_pic_height)
-                     im.paste(paste_pic, (xy[i][0], xy[i][1]))
-                     counter += 1
-                     if counter == 5:
-                         pass
+            xy = self.quads(self.im_width, self.im_height, self.start_x,
+                            self.start_y)
+            if (xy[0][2] - xy[0][0]) < self.min_size or (
+                    xy[0][3] - xy[0][1]) < self.min_size:
+                for i in range(0, 4):
+                    img = im.crop((xy[i][0], xy[i][1], xy[i][2], xy[i][3]))
+                    match = self.find_match(img, d)
+                    resize_pic = os.path.join(self.path, match)
+                    resize_pic = Image.open(resize_pic)
+                    resize_pic_width = xy[i][2] - xy[i][0]
+                    resize_pic_height = xy[i][3] - xy[i][1]
+                    paste_pic = self.resize_picture(
+                        resize_pic, resize_pic_width, resize_pic_height)
+                    im.paste(paste_pic, (xy[i][0], xy[i][1]))
+                    counter += 1
+                    if counter == 5:
+                        pass
             else:
-                 for i in range(0, 4):
-                     Q.append(xy[i])
+                for i in range(0, 4):
+                    Q.append(xy[i])
             if len(Q) == 0:
-                    switch = 0
+                switch = 0
         return self.im
 
     def quads(self, im_width, im_height, start_x, start_y):
@@ -82,7 +85,7 @@ class photomosaic(Mosaic):
     def pictdb_getdata(self, pictdb, dirname):
         """Creates a dictionary entry for each picture in the picture database.
         The key will be the counter, the value will be the Red, Green, and Blue
-        averages as a 3-length tuple. Returns the dictionary 'd'"""    
+        averages as a 3-length tuple. Returns the dictionary 'd'"""
         d = {}
         counter = 0
         for i in pictdb:
@@ -108,7 +111,7 @@ class photomosaic(Mosaic):
         return d
 
     def find_match(self, img, d):
-    
+
         pictdb = os.listdir(self.path)
         color_value = self.img_getdata(img)
         closest_match = 1000000
@@ -139,8 +142,8 @@ class photomosaic(Mosaic):
 
     def img_getdata(self, img):
         """Returns a 3-length tuple of the average Red, Green and Blue
-        color values"""    
-        img = img.getdata()    
+        color values"""
+        img = img.getdata()
         red_counter = 0
         green_counter = 0
         blue_counter = 0
@@ -164,18 +167,20 @@ class photomosaic(Mosaic):
 
         # calculate rms
         return math.sqrt(reduce(operator.add,
-            map(lambda h, i: h*(i**2), h, range(256))
-        ) / (float(im1.size[0]) * im1.size[1]))
+                                map(lambda h, i: h * (i**2), h, range(256))) /
+                         (float(im1.size[0]) * im1.size[1]))
 
     def resize_picture(self, resize_pic, resize_pic_width, resize_pic_height):
         """Resizes the picture database picture to the size of the
-        cropped quadrant picture, and returns as value 'out'"""    
+        cropped quadrant picture, and returns as value 'out'"""
         out = resize_pic.resize((resize_pic_width, resize_pic_height))
         return out
 
     def save_as(self):
-        self.im.save("C:\\Users\\GREG\\Desktop\\Sandbox\\photomosaic\\" + 'im_Greg1.jpg', quality = 100)
-    
+        self.im.save("C:\\Users\\GREG\\Desktop\\Sandbox\\photomosaic\\" +
+                     'im_Greg1.jpg',
+                     quality=100)
+
 
 start_time = time.clock()
 p1 = photomosaic('C:\\Users\\GREG\\Desktop\\Sandbox\\photomosaic\\Flowers')
