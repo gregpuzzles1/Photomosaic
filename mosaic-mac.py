@@ -173,9 +173,10 @@ def create_mosaic(filename, min_size):
                 #print xy[i]
                 img = im.crop((xy[i][0], xy[i][1], xy[i][2], xy[i][3]))
                 match = find_match(img, d)
-                resize_pic = os.path.join(dirname, match)
-                va = "dali/.DS_Store"
-                if dirname != va:
+                if match.startswith('.')
+                    resize_pic = os.path.join(dirname, match)
+                    #va = "dali/.DS_Store"
+                    #sif dirname != va:
                     resize_pic = Image.open(resize_pic)
                     resize_pic_width = xy[i][2] - xy[i][0]
                     resize_pic_height = xy[i][3] - xy[i][1]
