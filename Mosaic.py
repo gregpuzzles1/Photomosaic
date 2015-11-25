@@ -35,7 +35,7 @@ def compare(img, x):
 
 def compare_color(img):
     """Innactive Function"""
-    dirname = 'dali'
+    dirname = 'tiles'
     pictdb = os.listdir(dirname)
     counter = 0
     for i in pictdb:
@@ -61,7 +61,7 @@ def resize_picture(resize_pic, resize_pic_width, resize_pic_height):
 
 
 def find_match(img, d):
-    dirname = 'dali'
+    dirname = 'tiles'
     pictdb = os.listdir(dirname)
     color_value = img_getdata(img)
     closest_match = 1000000
@@ -143,7 +143,7 @@ def pictdb_getdata(pictdb, dirname):
 
 def create_mosaic(filename, min_size):
     """Creates the mosaic"""
-    dirname = 'dali'
+    dirname = 'tiles'
     pictdb = os.listdir(dirname)
     counter = 0
     imc = Image.open(filename)
