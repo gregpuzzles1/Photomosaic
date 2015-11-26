@@ -11,8 +11,6 @@ import time
 
 from collections import deque
 
-import test
-
 
 def quads(im_width, im_height, start_x, start_y):
     """Divides the original picture into quadrants"""
@@ -43,7 +41,7 @@ def compare_color(img):
     pictdb = os.listdir(dirname)
     counter = 0
     for i in pictdb:
-        x = os.path.join('dali', i)
+        x = os.path.join('tiles-png', i)
         td = compare(img, x)
         counter += 1
         if counter == 1:
@@ -65,7 +63,7 @@ def resize_picture(resize_pic, resize_pic_width, resize_pic_height):
 
 
 def find_match(img, d):
-    dirname = 'tiles'
+    dirname = 'tiles-png'
     pictdb = os.listdir(dirname)
     color_value = img_getdata(img)
     closest_match = 1000000
@@ -131,8 +129,6 @@ def pictdb_getdata(pictdb, dirname):
         green_counter = 0
         blue_counter = 0
         for rgb in dbpic:
-            convert_jpg(rgb)
-            print ("rgb = ", rgb)
             red = rgb[0]
             green = rgb[1]
             blue = rgb[2]
@@ -164,7 +160,7 @@ def convert_jpg(infile):
 
 def create_mosaic(filename, min_size):
     """Creates the mosaic"""
-    dirname = 'tiles'
+    dirname = 'tiles-png'
     pictdb = os.listdir(dirname)
     counter = 0
     imc = Image.open(filename)
@@ -213,7 +209,7 @@ def create_mosaic(filename, min_size):
 
 def save_as(im, outdir):
     """Save the mosaic as im.jpg in the outdir directory"""
-    im.save(outdir + 'test.jpg', quality=100)
+    im.save(outdir + 'test3.jpg', quality=100)
 
 
 def main():
