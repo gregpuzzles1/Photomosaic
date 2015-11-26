@@ -37,11 +37,11 @@ def compare(img, x):
 
 def compare_color(img):
     """Innactive Function"""
-    dirname = 'tiles'
+    dirname = 'dali-Flowers-tiles/'
     pictdb = os.listdir(dirname)
     counter = 0
     for i in pictdb:
-        x = os.path.join('tiles-png', i)
+        x = os.path.join('dali-Flowers-tiles/', i)
         td = compare(img, x)
         counter += 1
         if counter == 1:
@@ -63,7 +63,7 @@ def resize_picture(resize_pic, resize_pic_width, resize_pic_height):
 
 
 def find_match(img, d):
-    dirname = 'tiles-png'
+    dirname = 'dali-Flowers-tiles'
     pictdb = os.listdir(dirname)
     color_value = img_getdata(img)
     closest_match = 1000000
@@ -160,7 +160,7 @@ def convert_jpg(infile):
 
 def create_mosaic(filename, min_size):
     """Creates the mosaic"""
-    dirname = 'tiles-png'
+    dirname = 'dali-Flowers-tiles'
     pictdb = os.listdir(dirname)
     counter = 0
     imc = Image.open(filename)
@@ -209,7 +209,7 @@ def create_mosaic(filename, min_size):
 
 def save_as(im, outdir):
     """Save the mosaic as im.jpg in the outdir directory"""
-    im.save(outdir + 'test3.jpg', quality=100)
+    im.save(outdir + 'test4.jpg', quality=100)
 
 
 def main():
