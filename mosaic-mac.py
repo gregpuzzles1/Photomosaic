@@ -173,17 +173,16 @@ def create_mosaic(filename, min_size):
                 #print xy[i]
                 img = im.crop((xy[i][0], xy[i][1], xy[i][2], xy[i][3]))
                 match = find_match(img, d)
-                if match.startswith('.')
-                    resize_pic = os.path.join(dirname, match)
-                    #va = "dali/.DS_Store"
-                    #sif dirname != va:
-                    resize_pic = Image.open(resize_pic)
-                    resize_pic_width = xy[i][2] - xy[i][0]
-                    resize_pic_height = xy[i][3] - xy[i][1]
-                    paste_pic = resize_picture(resize_pic, resize_pic_width,
-                                               resize_pic_height)
-                    im.paste(paste_pic, (xy[i][0], xy[i][1]))
-                    counter += 1
+                resize_pic = os.path.join(dirname, match)
+                #va = "dali/.DS_Store"
+                #sif dirname != va:
+                resize_pic = Image.open(resize_pic)
+                resize_pic_width = xy[i][2] - xy[i][0]
+                resize_pic_height = xy[i][3] - xy[i][1]
+                paste_pic = resize_picture(resize_pic, resize_pic_width,
+                                           resize_pic_height)
+                im.paste(paste_pic, (xy[i][0], xy[i][1]))
+                counter += 1
                 if counter == 5:
                     pass
         else:
@@ -196,7 +195,7 @@ def create_mosaic(filename, min_size):
 
 def save_as(im, outdir):
     """Save the mosaic as im.jpg in the outdir directory"""
-    im.save(outdir + 'test.jpg', quality=100)
+    im.save(outdir + 'test12.jpg', quality=100)
 
 
 def main():
