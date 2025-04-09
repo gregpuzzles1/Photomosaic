@@ -1,7 +1,7 @@
-import Tkinter
-import tkFileDialog
+import tkinter
+from tkinter import filedialog
 
-root = Tkinter.Tk()
+root = tkinter.Tk()
 root.withdraw()
 
-filename = tkFileDialog.askopenfilename(parent=root,title='Open file to encrypt')
+filename = filedialog.askopenfilename(parent=root, title='Open file to encrypt')
