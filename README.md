@@ -42,6 +42,7 @@ The script will assemble a photomosaic using the provided inputs.
 
 **Note:** If you need more information about the problem set, consult the HTML assignment file linked above.
 
+---
 # Photomosaic
 In doing research on this project, I ran across Sameep Tandon's ([Sameep Tandon on GitHub](https://github.com/sameeptandon)) photomosaic creator. It's one of the better photomosaic generators I've found.
 
