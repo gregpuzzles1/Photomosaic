@@ -12,6 +12,8 @@ Full details and requirements for the assignment are described in:
 
 ps1/cs1120-Problem-Set-1-Making-Mosaics.html
 
+If you want to make the effort to make it a viewable webpage:
+
 Copy the entire contents of the HTML into a file named index.html.
 
 Save it anywhere on your computer.
