@@ -4,7 +4,7 @@ This repository contains solutions and resources for the CS1120 Problem Set 1: M
 
 - **Language:** Python
 - **Working solution:** `photomosaic-2025-03.py`
-- **Tile set:** Uses the `dali` directory of small photos as input.
+- **Tile set:** Uses the `dali` directory of small photos as input. There are several other directories for tiling options available in the repo. 
 
 ## Assignment Instructions
 
