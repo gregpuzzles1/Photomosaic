@@ -1,3 +1,40 @@
+# CS1120 Photomosaic Assignment
+
+This repository contains solutions and resources for the CS1120 Problem Set 1: Making Mosaics. The goal is to construct a photomosaic—an image composed of smaller images arranged to recreate the original picture.
+
+- **Language:** Python
+- **Working solution:** `photomosaic-2025-03.py`
+- **Tile set:** Uses the `dali` directory of small photos as input.
+
+## Assignment Instructions
+
+Full details and requirements for the assignment are described in:
+
+[ps1/cs1120-Problem-Set-1-Making-Mosaics.html](https://github.com/gregpuzzles1/Photomosaic/blob/main/ps1/cs1120-Problem-Set-1-Making-Mosaics.html)
+
+Click the link above to view the assignment in your browser.
+
+## Quick Start
+
+1. Ensure you have Python installed.
+2. Place `photomosaic-2025-03.py` in your working directory.
+3. Make sure the `dali` directory of tile images is present as required by the script.
+4. Run the main file with:
+
+    ```bash
+    python photomosaic-2025-03.py
+    ```
+
+The script will assemble a photomosaic using the provided inputs.
+
+## Collaboration & Submission
+
+- See the assignment link above for detailed collaboration policy and submission instructions.
+
+---
+
+**Note:** If you need more information about the problem set, consult the HTML assignment file linked above.
+
 # Photomosaic
 In doing research on this project, I ran across Sameep Tandon's ([Sameep Tandon on GitHub](https://github.com/sameeptandon)) photomosaic creator. It's one of the better photomosaic generators I've found.
 
