@@ -10,7 +10,7 @@ This repository contains solutions and resources for the CS1120 Problem Set 1: M
 
 Full details and requirements for the assignment are described in:
 
-[ps1/cs1120-Problem-Set-1-Making-Mosaics.html](https://github.com/gregpuzzles1/Photomosaic/blob/main/ps1/cs1120-Problem-Set-1-Making-Mosaics.html)
+ps1/cs1120-Problem-Set-1-Making-Mosaics.html
 
 Click the link above to view the assignment in your browser.
 
