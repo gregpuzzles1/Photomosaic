@@ -1,18 +1,18 @@
 # CS1120 Photomosaic Assignment
 
-This repository contains solutions and resources for the CS1120 Problem Set 1: Making Mosaics. The goal is to construct a photomosaic—an image composed of smaller images arranged to recreate the original picture.
+This repository contains solutions and resources for the CS1120 Problem Set 1: Making Mosaics. The goal is to construct a photomosaic—an image composed of smaller images arranged to recreate the ori[...]
 
 - **Language:** Python
-- **Working solution:** `photomosaic-2025-03.py`
-- **Tile set:** Original assignment uses the `dali` directory of small photos as input. There are several other directories for tiling options available in the repo from other photomosaic experiments. 
+- **Working solution:** [`photomosaic-2025-03.py`](photomosaic-2025-03.py)
+- **Tile set:** Original assignment uses the [`dali`](dali) directory of small photos as input. There are several other directories for tiling options available in the repo from other photomosaic experiments.[...]
 
 ## Assignment Instructions
 
 Full details and requirements for the assignment are described in:
 
-ps1/cs1120-Problem-Set-1-Making-Mosaics.html and
+[`ps1/cs1120-Problem-Set-1-Making-Mosaics.html`](ps1/cs1120-Problem-Set-1-Making-Mosaics.html) and
 
-index.shtml (original assignment)
+[`index.shtml`](index.shtml) (original assignment)
 
 If you want to make the effort to make them a viewable webpage:
 
@@ -44,10 +44,14 @@ The script will assemble a photomosaic using the provided inputs.
 
 ---
 # Photomosaic
-In doing research on this project, I ran across Sameep Tandon's ([Sameep Tandon on GitHub](https://github.com/sameeptandon)) photomosaic creator. It's one of the better photomosaic generators I've found.
+In doing research on this project, I ran across Sameep Tandon's ([Sameep Tandon on GitHub](https://github.com/sameeptandon)) photomosaic creator. It's one of the better photomosaic generators I've fou[...]
 
 ##### Below is a photomosaic output from Sameep Tandon's photomosaic creator - mosaic.Sameep.py.
 ###### ```C:\Photomosaic>python mosaic.Sameep.py -i IMG_1025-resize.jpg -s dali-Flowers -r 5 5 -t 90 90 -a```
+
+A photomosaic of Long's Peak in Colorado, USA (Resized)
+![Long's Peak](output-photos/Longs.Sameep-a-resize.jpg)
+
 
 A photomosaic of Long's Peak in Colorado, USA (Resized)
 ![Long's Peak](output-photos/Longs.Sameep-a-resize.jpg)
