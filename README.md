@@ -4,7 +4,7 @@ This repository contains solutions and resources for the CS1120 Problem Set 1: M
 
 - **Language:** Python
 - **Working solution:** [`photomosaic-2025-03.py`](photomosaic-2025-03.py)
-- **Tile set:** Original assignment uses the [`dali`](dali) directory of small photos as input. There are several other directories for tiling options available in the repo from other photomosaic experiments.[...]
+- **Tile set:** Original assignment uses the [`dali`](dali) directory of small photos as input. There are several other directories for tiling options available in the repo from other photomosaic expe[...]
 
 ## Assignment Instructions
 
@@ -48,10 +48,6 @@ In doing research on this project, I ran across Sameep Tandon's ([Sameep Tandon 
 
 ##### Below is a photomosaic output from Sameep Tandon's photomosaic creator - mosaic.Sameep.py.
 ###### ```C:\Photomosaic>python mosaic.Sameep.py -i IMG_1025-resize.jpg -s dali-Flowers -r 5 5 -t 90 90 -a```
-
-A photomosaic of Long's Peak in Colorado, USA (Resized)
-![Long's Peak](output-photos/Longs.Sameep-a-resize.jpg)
-
 
 A photomosaic of Long's Peak in Colorado, USA (Resized)
 ![Long's Peak](output-photos/Longs.Sameep-a-resize.jpg)
