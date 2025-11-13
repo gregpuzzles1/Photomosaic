@@ -10,13 +10,13 @@ This repository contains solutions and resources for the CS1120 Problem Set 1: M
 
 Full details and requirements for the assignment are described in:
 
-ps1/cs1120-Problem-Set-1-Making-Mosaics.html
+ps1/cs1120-Problem-Set-1-Making-Mosaics.html and
 
-If you want to make the effort to make it a viewable webpage:
+index.shtml (original assignment)
 
-Copy the entire contents of the HTML into a file named index.html (HTML may need to be refactored).
+If you want to make the effort to make them a viewable webpage:
 
-Save it anywhere on your computer.
+Open up the file and Download it to your computer then open it in your browser.
 
 Double-click it, or right-click and choose “Open with → Browser” (Chrome, Firefox, etc.).
 That’ll render the webpage immediately.
