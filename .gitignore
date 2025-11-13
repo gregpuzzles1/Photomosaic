@@ -1,0 +1,75 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+
+# File system / image viewers
+.picasa.ini
+
+# Python cache/bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# SQLite or other local databases
+*.db
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+
+# Build and distribution (if any)
+build/
+dist/
+*.egg-info/
+
+# IDE/Editor settings
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Output/image generated folders (add or adjust if used for temp/output, but NOT if they're actual project data)
+output-photos/
+# (Uncomment below if output strictly belongs in these folders and should be ignored)
+# Flowers/
+# dali/
+# dali-Flowers/
+# dali-Flowers-tiles/
+# input-photos/
+# pictures/
+# ps1/
+# tiles/
+# tiles-jpg/
+# tiles-png/
+# tiles copy/
+
+# Archives and backups (if they're only intermediate)
+*.zip
+*.tar.gz
+*.bak
+
+# Generic OS file settings
+Icon?
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+
+# Raspberry Pi specific
+*.img
+
+# Remove duplication if necessary
+
+# END
